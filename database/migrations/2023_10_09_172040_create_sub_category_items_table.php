@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(SubCategory::class,'sub_category_id')->constrained()->onDelete('cascade');
             $table->text('descriptions')->nullable();
             $table->enum('book_type',['offline','online']);
+            $table->string('contact')->nullable();
             $table->timestamps();
         });
     }

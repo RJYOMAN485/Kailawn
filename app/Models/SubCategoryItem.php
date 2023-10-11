@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class SubCategoryItem extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function subCategory() {
+        return $this->belongsTo(SubCategory::class,'sub_category_id','id');
+    }
 }

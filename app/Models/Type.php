@@ -9,6 +9,8 @@ class Type extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function categories() {
         return $this->belongsToMany(Category::class,'category_type')->withTimestamps();
     }
