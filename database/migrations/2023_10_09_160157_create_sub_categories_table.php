@@ -14,9 +14,10 @@ return new class extends Migration
     {
         Schema::create('sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Category::class,'category_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Category::class,'category_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('name')->nullable();
             $table->string('description')->nullable();
+            $table->enum('book_type',['offline','online']);
             $table->timestamps();
         });
     }

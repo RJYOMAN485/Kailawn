@@ -22,6 +22,16 @@ class TypeSeeder extends Seeder
             'code' => 'WOMEN',
             'name' => 'Women',
         ],
+        [
+            'id' => 3,
+            'code' => 'UNISEX',
+            'name' => 'UNISEX'
+        ],
+        [
+            'id' => 4,
+            'code' => 'ALL',
+            'name' => 'ALL'
+        ]
     ];
     public function run(): void
     {

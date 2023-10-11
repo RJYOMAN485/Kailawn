@@ -11,7 +11,13 @@ class Type extends Model
 
     protected $guarded = [];
 
+    const MEN = 1;
+    const WOMEN = 2;
+    const UNISEX = 3;
+    const ALL = 4;
+
+
     public function categories() {
-        return $this->belongsToMany(Category::class,'category_type')->withTimestamps();
+        return $this->belongsToMany(Category::class,'category_type','type_id','category_id')->withTimestamps();
     }
 }

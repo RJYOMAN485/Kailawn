@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('sub_category_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(SubCategory::class,'sub_category_id')->constrained()->onDelete('cascade');
-            $table->text('descriptions')->nullable();
-            $table->enum('book_type',['offline','online']);
+            $table->foreignIdFor(SubCategory::class,'sub_category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->text('name');
+            $table->text('description')->nullable();
             $table->string('contact')->nullable();
             $table->timestamps();
         });

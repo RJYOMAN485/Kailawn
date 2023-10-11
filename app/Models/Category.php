@@ -21,6 +21,6 @@ class Category extends Model
 
     public function types()
     {
-        return $this->belongsToMany(Type::class, 'category_type')->withTimestamps();
+        return $this->belongsToMany(Type::class, 'category_type','category_id','type_id')->withTimestamps();
     }
 }
