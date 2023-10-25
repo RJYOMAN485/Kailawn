@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\School;
+use App\Models\Subject;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,12 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('category_type', function (Blueprint $table) {
+        Schema::create('school_subjects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type_id');
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('type_id')->references('id')->on('types')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignIdFor(School::class,'school_id')->nullable();
+            $table->foreignIdFor(Subject::class,'subject_id')->nullable();
+            $table->boolean('admission_open')->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category_type');
+        Schema::dropIfExists('school_streams');
     }
 };

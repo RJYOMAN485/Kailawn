@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_categories', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Category::class,'category_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->enum('book_type',['offline','online']);
+            $table->string('name');
+            $table->mediumText('description')->nullable();
+            $table->boolean('is_published')->default(true);
+            $table->integer('order_no')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_categories');
+        Schema::dropIfExists('categories');
     }
 };

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\SubCategory;
+use App\Models\Subject;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_category_items', function (Blueprint $table) {
+        Schema::create('home_tuitions_subjects', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(SubCategory::class,'sub_category_id')->nullable()->constrained()->onDelete('cascade');
-            $table->text('name');
-            $table->text('description')->nullable();
-            $table->string('contact')->nullable();
+            $table->foreignIdFor(HomeTuition::class,'home_tuition_id');
+            $table->foreignIdFor(Subject::class,'subject_id');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_category_items');
+        Schema::dropIfExists('home_tuitions_subjects');
     }
 };
