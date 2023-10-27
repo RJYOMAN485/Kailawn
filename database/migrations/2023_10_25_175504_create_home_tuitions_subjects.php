@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\HomeTuition;
 use App\Models\Subject;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

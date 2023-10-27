@@ -15,14 +15,16 @@ return new class extends Migration
     {
         Schema::create('home_tuitions', function (Blueprint $table) {
             $table->id();
-            $table->string('address');
-            $table->string('tutor_name');
-            // $table->string('timing');
-            $table->text('fees_structure');
-            $table->string('contact');
-            $table->text('tutor_description');
-            $table->text('description');
-            $table->string('tutor_qualification');
+            $table->string('address')->nullable();
+            $table->string('tutor_name')->nullable();
+            $table->string('timing')->nullable();
+            $table->text('fees_structure')->nullable();
+            $table->string('contact')->nullable();
+            $table->text('tutor_description')->nullable();
+            $table->text('description')->nullable();
+            $table->string('tutor_qualification')->nullable();
+            $table->text('special_subject')->nullable();
+
             // $table->foreignIdFor(Grade::class,'grade')->nullable();
             $table->timestamps();
         });

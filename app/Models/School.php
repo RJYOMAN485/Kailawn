@@ -14,6 +14,6 @@ class School extends Model
 
 
     public function subjects() {
-        return $this->belongsToMany(Stream::class,'school_subjects','school_id','stream_id');
+        return $this->belongsToMany(Subject::class,'school_subjects','school_id','subject_id');
     }
 }

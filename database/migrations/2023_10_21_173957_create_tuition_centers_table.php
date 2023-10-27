@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('tuition_centers', function (Blueprint $table) {
             $table->id();
-            $table->string('timing');
-            $table->mediumText('address');
-            $table->string('contact');
-            $table->text('rules_regulations');
-            $table->text('fees_structure');
-            $table->string('email');
-            $table->string('instagram_link');
-            $table->string('youtue_link');
-            $table->string('facebook_link');
+            $table->string('name')->nullable();
+            $table->string('timing')->nullable();
+            $table->mediumText('address')->nullable();
+            $table->text('description')->nullable();
+            $table->string('contact')->nullable();
+            $table->text('rules_regulations')->nullable();
+            $table->text('fees_structure')->nullable();
+            $table->string('email')->nullable();
+            $table->string('instagram_link')->nullable();
+            $table->string('youtube_link')->nullable();
+            $table->string('facebook_link')->nullable();
             $table->timestamps();
         });
     }

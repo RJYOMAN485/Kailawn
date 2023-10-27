@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Qualification;
+use App\Models\School;
+use App\Models\TuitionCenter;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,10 +24,12 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            TypeSeeder::class,
-            CategorySeeder::class,
-            SubCategorySeeder::class,
-            SubCategoryItemSeeder::class
+            QualificationSeeder::class,
+            SubjectSeeder::class,
+            HomeTuitionSeeder::class,
+            TuitionCenterSeeder::class,
+            SchoolSeeder::class
+
         ]);
     }
 }

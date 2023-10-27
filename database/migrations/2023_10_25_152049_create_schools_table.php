@@ -18,10 +18,11 @@ return new class extends Migration
             $table->mediumText('address')->nullable();
             $table->string('contact')->nullable();
             $table->text('rules_regulations')->nullable();
+            $table->text('description')->nullable();
             $table->text('fees_structure')->nullable();
             $table->string('email')->nullable();
             $table->string('instagram_link')->nullable();
-            $table->string('youtue_link')->nullable();
+            $table->string('youtube_link')->nullable();
             $table->string('facebook_link')->nullable();
             // $table->json('facilities')->nullable();
             $table->timestamps();
