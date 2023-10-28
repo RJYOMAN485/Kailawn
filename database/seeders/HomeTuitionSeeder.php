@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Grade;
 use App\Models\HomeTuition;
 use App\Models\Qualification;
 use App\Models\Subject;
@@ -25,9 +26,21 @@ class HomeTuitionSeeder extends Seeder
                 'contact' => fake()->phoneNumber,
                 'tutor_description' => fake()->sentence,
                 'description' => 'Home Tuition Available',
-                'tutor_qualification' => Qualification::inRandomOrder()->first()->name,
+                'tutor_qualification' => Subject::inRandomOrder()->first()->name,
                 'special_subject' => Subject::inRandomOrder()->first()->name,
             ]);
         }
+
+
+
+
+        $grades = Grade::all();
+        $subjects = Subject::all();
+
+        HomeTuition::query()->each(function($tuition) use($grades,$subjects){
+            // info($subjects->random(1,5)->pluck('id')->toArray());
+            // $tuition->grades()->attach($grades->whereIn('id',[5,6,7])->random(rand(1,3))->pluck('id')->toArray());
+            $tuition->subjects()->attach($subjects->random(rand(1,3))->pluck('id')->toArray());
+        });
     }
 }

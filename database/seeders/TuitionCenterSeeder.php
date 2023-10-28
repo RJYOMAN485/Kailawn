@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Grade;
+use App\Models\Subject;
 use App\Models\TuitionCenter;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -32,5 +34,16 @@ class TuitionCenterSeeder extends Seeder
                 'facebook_link' => fake()->url,
             ]);
         }
+
+
+
+        $grades = Grade::all();
+        $subjects = Subject::all();
+
+        TuitionCenter::query()->each(function($tuition) use($grades,$subjects){
+            // info($subjects->random(1,5)->pluck('id')->toArray());
+            // $tuition->grades()->attach($grades->whereIn('id',[5,6,7])->random(rand(1,3))->pluck('id')->toArray());
+            $tuition->subjects()->attach($subjects->random(rand(1,3))->pluck('id')->toArray());
+        });
     }
 }

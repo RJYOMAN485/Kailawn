@@ -16,4 +16,8 @@ class School extends Model
     public function subjects() {
         return $this->belongsToMany(Subject::class,'school_subjects','school_id','subject_id');
     }
+
+
+
+
 }

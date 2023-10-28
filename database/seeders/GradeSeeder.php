@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Qualification;
+use App\Models\Grade;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class QualificationSeeder extends Seeder
+class GradeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run()
   {
-    $qualifications = [
+    $grades = [
       [
         'id' => 1,
         'name' => 'Primary School',
@@ -48,6 +48,6 @@ class QualificationSeeder extends Seeder
       ],
     ];
 
-    Qualification::query()->upsert($qualifications,'id');
+    Grade::query()->upsert($grades,'id');
   }
 }
