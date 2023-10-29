@@ -46,7 +46,7 @@ class HomeTuitionController extends Controller
 
     public function showBySubject(Subject $subject)
     {
-        // return $grade->id;
+        // return $subject->id;
         $data = HomeTuition::query()->whereHas('subjects', fn ($q) => $q->where('subject_id', $subject->id))->get();
 
         return [

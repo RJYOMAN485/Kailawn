@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Education;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admission;
 use App\Models\Grade;
 use App\Models\School;
 use App\Models\Subject;
@@ -12,7 +13,15 @@ class SchoolController extends Controller
 {
     public function index()
     {
-        $data = School::query()->get();
+        $data = School::query()
+            // ->with(['facilities' => function ($query) {
+            //     return $query->select('name')->pluck('name');
+            // //    return $query->pluck('name');
+            // }])
+            ->get();
+
+
+        // return $data['facilities'];
 
         return response()->json([
             'data' => $data
@@ -30,7 +39,7 @@ class SchoolController extends Controller
     public function showByGrade(Grade $grade)
     {
         // return $grade->id;
-        $data = School::query()->whereHas('subjects', fn ($q) => $q->whereHas('grade', fn ($q) => $q->where('id', $grade->id)))->get();
+        $data = School::query()->whereHas('subjectsOffered', fn ($q) => $q->whereHas('grade', fn ($q) => $q->where('id', $grade->id)))->get();
 
 
         return [
@@ -44,10 +53,24 @@ class SchoolController extends Controller
     public function showBySubject(Subject $subject)
     {
         // return $subject;
-        $data = School::query()->whereHas('subjects', fn ($q) => $q->where('subject_id', $subject->id))->get();
+        $data = School::query()->whereHas('subjectsOffered', fn ($q) => $q->where('subject_id', $subject->id))->get();
 
         return [
             'data' => $data
         ];
+    }
+
+
+    public function storeAdmission(School $school, Request $request)
+    {
+        $admission = $school->admissions()->create($request->only(Admission::ATTRIBUTES));
+
+        $admission->user_id = auth()->id() ?? 1;
+
+        $admission->save();
+
+        return response()->json([
+            'message'  => 'Admission saved successfully'
+        ], 200);
     }
 }

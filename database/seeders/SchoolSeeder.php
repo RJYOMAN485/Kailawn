@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Facility;
 use App\Models\School;
 use App\Models\Subject;
 use App\Models\TuitionCenter;
@@ -36,10 +37,13 @@ class SchoolSeeder extends Seeder
         }
 
         $subjects = Subject::all();
+        $facilities = Facility::all();
 
-        School::query()->each(function($school) use($subjects){
+        School::query()->each(function($school) use($subjects,$facilities){
             // info($subjects->random(1,5)->pluck('id')->toArray());
-            $school->subjects()->attach($subjects->whereIn('id',[1,2,3])->random(rand(1,3))->pluck('id')->toArray());
+            $school->subjectsOffered()->attach($subjects->whereIn('id',[1,2,3])->random(rand(1,3))->pluck('id')->toArray());
+            $school->facilities()->attach($facilities->random(rand(1,3))->pluck('id')->toArray());
+
         });
 
     }

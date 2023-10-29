@@ -39,7 +39,7 @@ Route::group(['prefix' => 'education/home-tuition'], function () {
     Route::get('', [HomeTuitionController::class, 'index']);
     Route::get('{model}', [HomeTuitionController::class, 'show']);
     Route::get('grade/{grade}', [HomeTuitionController::class, 'showByGrade']);
-    Route::get('subject/{subject}', [HomeTuitionController::class, 'showByGrade']);
+    Route::get('subject/{subject}', [HomeTuitionController::class, 'showBySubject']);
 });
 
 
@@ -47,7 +47,7 @@ Route::group(['prefix' => 'education/tuition-center'], function () {
     Route::get('', [TuitionCenterController::class, 'index']);
     Route::get('{model}', [TuitionCenterController::class, 'show']);
     Route::get('grade/{grade}', [TuitionCenterController::class, 'showByGrade']);
-    Route::get('subject/{subject}', [TuitionCenterController::class, 'showByGrade']);
+    Route::get('subject/{subject}', [TuitionCenterController::class, 'showBySubject']);
 });
 
 
@@ -57,6 +57,7 @@ Route::group(['prefix' => 'education/school'], function () {
     Route::get('{model}', [SchoolController::class, 'show']);
     Route::get('grade/{grade}', [SchoolController::class, 'showByGrade']);
     Route::get('subject/{subject}', [SchoolController::class, 'showBySubject']);
+    Route::post('{school}/admission/store', [SchoolController::class, 'storeAdmission']);
 });
 
 

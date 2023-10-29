@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('school_subjects', function (Blueprint $table) {
+        Schema::create('school_subjects_offered', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(School::class,'school_id')->nullable();
             $table->foreignIdFor(Subject::class,'subject_id')->nullable();

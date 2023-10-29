@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             SubjectSeeder::class,
             HomeTuitionSeeder::class,
             TuitionCenterSeeder::class,
+            FacilitySeeder::class,
             SchoolSeeder::class
 
         ]);

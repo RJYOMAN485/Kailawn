@@ -3,6 +3,7 @@
 use App\Models\School;
 use App\Models\Stream;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(School::class,'school_id')->nullable();
             $table->foreignIdFor(Subject::class,'subject_id')->nullable();
+            $table->foreignIdFor(User::class,'user_id')->nullable();
             $table->string('name');
             $table->string('gender');
             $table->date('dob');
@@ -34,10 +36,10 @@ return new class extends Migration
             $table->string('last_board');
             $table->string('division');
             $table->string('percentage');
-            $table->string('major_core');
+            $table->string('major_core')->nullable();
 
 
-            $table->enum('status',['submitted','approved','rejected']);
+            $table->enum('status',['submitted','approved','rejected'])->default('submitted');
             $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });

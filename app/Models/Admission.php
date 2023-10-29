@@ -12,12 +12,40 @@ class Admission extends Model
     protected $guarded = [];
 
 
-    public function school(){
-        return $this->belongsTo(School::class,'school_id','id');
+    const ATTRIBUTES = [
+        'name',
+        'gender',
+        'dob',
+        'contact',
+        'present_address',
+        'district',
+        'class',
+        'fathers_name',
+        'mothers_name',
+        'fathers_contact',
+        'mothers_contact',
+        'last_school',
+        'last_passed',
+        'last_board',
+        'division',
+        'percentage',
+        'major_core',
+        'subject_id'
+    ];
+
+
+    public function school()
+    {
+        return $this->belongsTo(School::class, 'school_id', 'id');
     }
 
 
-    public function stream(){
-        return $this->belongsTo(Stream::class,'stream_id','id');
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
