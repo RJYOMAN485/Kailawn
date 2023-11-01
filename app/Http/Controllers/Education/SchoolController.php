@@ -73,4 +73,9 @@ class SchoolController extends Controller
             'message'  => 'Admission saved successfully'
         ], 200);
     }
+
+
+    public function getSubjectOffer(School $school) {
+        return $school->subjectsOffered()->get(['subjects.id','subjects.name']);
+    }
 }

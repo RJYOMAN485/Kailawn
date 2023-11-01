@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Qualification;
 use App\Models\School;
+use App\Models\Specialization;
 use App\Models\TuitionCenter;
 use Illuminate\Database\Seeder;
 
@@ -29,7 +30,10 @@ class DatabaseSeeder extends Seeder
             HomeTuitionSeeder::class,
             TuitionCenterSeeder::class,
             FacilitySeeder::class,
-            SchoolSeeder::class
+            SchoolSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+            SpecializationSeeder::class
 
         ]);
     }

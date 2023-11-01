@@ -13,7 +13,7 @@ class HomeTuitionController extends Controller
 {
     public function index()
     {
-        $data = School::query()->get();
+        $data = HomeTuition::query()->get();
 
         return response()->json([
             'data' => $data
@@ -21,7 +21,7 @@ class HomeTuitionController extends Controller
     }
 
 
-    public function show(School $model)
+    public function show(HomeTuition $model)
     {
         return response()->json([
             'data' => $model

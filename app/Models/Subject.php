@@ -10,6 +10,9 @@ class Subject extends Model
     use HasFactory;
 
 
+
+    protected $hidden = ['pivot'];
+
     public function grade() {
         return $this->belongsTo(Grade::class,'grade_id','id');
     }

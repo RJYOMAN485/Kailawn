@@ -18,13 +18,9 @@ class School extends Model
 
     protected $appends = ['admission_open','facilities'];
 
-
-
-
     public function subjectsOffered() {
         return $this->belongsToMany(Subject::class,'school_subjects_offered','school_id','subject_id');
     }
-
 
     public function admissions() {
         return $this->hasMany(Admission::class,'school_id','id');
@@ -34,7 +30,6 @@ class School extends Model
         return $this->belongsToMany(Facility::class,'school_facilities','school_id','facility_id');
     }
 
-
     function getAdmissionOpenAttribute()  {
         return $this->subjectsOffered()->where('admission_open',true)->exists();
     }
@@ -42,11 +37,5 @@ class School extends Model
     function getFacilitiesAttribute() {
         return $this->facilities()->pluck('name');
     }
-
-
-
-
-
-
 
 }
