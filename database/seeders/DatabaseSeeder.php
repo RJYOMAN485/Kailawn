@@ -25,15 +25,16 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            GradeSeeder::class,
-            SubjectSeeder::class,
-            HomeTuitionSeeder::class,
-            TuitionCenterSeeder::class,
-            FacilitySeeder::class,
-            SchoolSeeder::class,
-            RoleSeeder::class,
-            UserSeeder::class,
-            SpecializationSeeder::class
+            // GradeSeeder::class,
+            // SubjectSeeder::class,
+            // HomeTuitionSeeder::class,
+            // TuitionCenterSeeder::class,
+            // FacilitySeeder::class,
+            // SchoolSeeder::class,
+            // RoleSeeder::class,
+            // UserSeeder::class,
+            // SpecializationSeeder::class,
+            MedicalSeeder::class
 
         ]);
     }

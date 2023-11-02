@@ -14,13 +14,14 @@ return new class extends Migration
     {
         Schema::create('medicals', function (Blueprint $table) {
             $table->id();
-            $table->string('doctor_name');
-            $table->foreignIdFor(Specialization::class,'specialization_id');
-            $table->enum('appointment_type',['house_call','clinic_booking']);
-            $table->mediumText('clinic_name');
-            $table->mediumText('address');
-            $table->string('fee');
-            $table->string('timing');
+            $table->string('doctor_name')->nullable();
+            $table->foreignIdFor(Specialization::class,'specialization_id')->nullable();
+            $table->enum('appointment_type',['house_call','clinic_booking'])->nullable();
+            $table->mediumText('clinic_name')->nullable();
+            $table->mediumText('address')->nullable();
+            $table->string('fee')->nullable();
+            $table->string('timing')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

@@ -88,6 +88,8 @@ Route::group(['prefix' => 'medical'], function () {
     Route::get('', [MedicalController::class, 'index']);
     Route::get('{model}', [MedicalController::class, 'show']);
     Route::get('specilization/{id}', [MedicalController::class, 'showBySpecialization']);
+    Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic']);
+    Route::get('payment/response-handler/{booking}', [MedicalController::class, 'paymentCallback']);
 });
 
 

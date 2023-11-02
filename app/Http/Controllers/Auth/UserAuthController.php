@@ -40,12 +40,9 @@ class UserAuthController extends Controller
 
     public function login(Request $request)
     {
-
-
         $auth = Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
-
         ]);
         if ($auth) {
             $auth = User::query()->firstWhere('email', $request->email);
