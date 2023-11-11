@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('appointment_type',['house_call','clinic_booking'])->nullable();
             $table->mediumText('clinic_name')->nullable();
             $table->mediumText('address')->nullable();
+            $table->string('phone_no')->nullable();
             $table->string('fee')->nullable();
             $table->string('timing')->nullable();
             $table->boolean('is_active')->default(true);

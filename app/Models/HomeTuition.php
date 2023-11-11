@@ -11,9 +11,22 @@ class HomeTuition extends Model
 
     protected $guarded = [];
 
+    const FILLABLE = [
+        'address',
+        'tutor_name',
+        'timing',
+        'fees_structure',
+        'contact',
+        'tutor_description',
+        'description',
+        'tutor_qualification',
+        'special_subject',
+        'is_active',
+    ];
 
-    public function subjects() {
-        return $this->belongsToMany(Subject::class,'home_tuitions_subjects','home_tuition_id','subject_id');
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class, 'home_tuitions_subjects', 'home_tuition_id', 'subject_id');
     }
 
 

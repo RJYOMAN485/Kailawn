@@ -21,6 +21,7 @@ class MedicalSeeder extends Seeder
                 'appointment_type' => rand(0,1) ? 'house_call' : 'clinic_booking',
                 'clinic_name' => fake()->streetName.' Clinic',
                 'address' => fake()->address,
+                'phone_no' => fake()->phoneNumber,
                 'fee' => rand(0,1) ? 500 : 1000,
                 'timing' => '10am to 4pm'
             ]);

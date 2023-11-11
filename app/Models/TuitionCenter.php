@@ -9,6 +9,20 @@ class TuitionCenter extends Model
 {
     use HasFactory;
 
+    const FILLABLE = [
+        'name',
+        'timing',
+        'address',
+        'description',
+        'contact',
+        'rules_regulations',
+        'fees_structure',
+        'email',
+        'instagram_link',
+        'youtube_link',
+        'facebook_link',
+        'is_active',
+    ];
 
 
     public function subjects() {

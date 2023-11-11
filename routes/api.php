@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\UserController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Education\HomeTuitionController;
 use App\Http\Controllers\Education\SchoolController;
 use App\Http\Controllers\Education\TuitionCenterController;
 use App\Http\Controllers\Medical\MedicalController;
+use App\Http\Controllers\Transport\TransportController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -88,8 +90,33 @@ Route::group(['prefix' => 'medical'], function () {
     Route::get('', [MedicalController::class, 'index']);
     Route::get('{model}', [MedicalController::class, 'show']);
     Route::get('specilization/{id}', [MedicalController::class, 'showBySpecialization']);
-    Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic']);
+    Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic'])->middleware('auth:sanctum');
     Route::get('payment/response-handler/{booking}', [MedicalController::class, 'paymentCallback']);
+});
+
+//TRANSPORT
+Route::group(['prefix' => 'transport'], function () {
+    Route::get('', [TransportController::class, 'index']);
+    Route::get('{model}', [TransportController::class, 'show']);
+});
+
+
+//ADMIN
+
+//EDUCATION
+Route::group(['prefix' => 'admin/education'], function () {
+    Route::get('', [EducationController::class, 'index']);
+    Route::get('home-tuition/{model}', [EducationController::class, 'showHomeTuition']);
+    Route::get('tuition-center/{model}', [EducationController::class, 'showTuitionCenter']);
+    Route::get('school/{model}', [EducationController::class, 'showSchool']);
+
+    Route::put('home-tuition/{model}', [EducationController::class, 'updateHomeTuition']);
+    Route::put('tuition-center/{model}', [EducationController::class, 'updateTuitionCenter']);
+    Route::put('school/{model}', [EducationController::class, 'updateSchool']);
+
+
+
+    Route::delete('{model}', [EducationController::class, 'destroy']);
 });
 
 

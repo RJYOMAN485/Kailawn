@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('tutor_qualification')->nullable();
             $table->text('special_subject')->nullable();
+            $table->boolean('is_active')->default(true);
 
             // $table->foreignIdFor(Grade::class,'grade')->nullable();
             $table->timestamps();

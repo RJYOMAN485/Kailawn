@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('instagram_link')->nullable();
             $table->string('youtube_link')->nullable();
             $table->string('facebook_link')->nullable();
-            // $table->json('facilities')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
