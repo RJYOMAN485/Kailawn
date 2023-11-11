@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Beauty\BeautyController;
 use App\Http\Controllers\Education\EducationCategoryController;
 use App\Http\Controllers\Education\GradeController;
 use App\Http\Controllers\Education\HomeTuitionController;
@@ -93,6 +94,17 @@ Route::group(['prefix' => 'medical'], function () {
     Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic'])->middleware('auth:sanctum');
     Route::get('payment/response-handler/{booking}', [MedicalController::class, 'paymentCallback']);
 });
+
+
+
+//BEAUTY
+Route::group(['prefix' => 'medical'], function () {
+    Route::get('', [BeautyController::class, 'index']);
+    Route::get('{model}', [BeautyController::class, 'show']);
+    Route::post('{model}/beauty-booking', [BeautyController::class, 'bookBeauty'])->middleware('auth:sanctum');
+    Route::get('payment/response-handler/{booking}', [BeautyController::class, 'paymentCallback']);
+});
+
 
 //TRANSPORT
 Route::group(['prefix' => 'transport'], function () {
