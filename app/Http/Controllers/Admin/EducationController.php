@@ -48,7 +48,7 @@ class EducationController extends Controller
     {
         $model->update($request->only(HomeTuition::FILLABLE));
         return response()->json([
-            'data' => $model
+            'data' => 'Successfully updated'
         ]);
     }
 
@@ -56,7 +56,8 @@ class EducationController extends Controller
     {
         $model->update($request->only(HomeTuition::FILLABLE));
         return response()->json([
-            'data' => $model
+            'data' => 'Successfully updated'
+
         ]);
     }
 }

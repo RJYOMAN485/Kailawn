@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\EducationController;
+use App\Http\Controllers\Admin\MedicalController as AdminMedicalController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\UserController;
@@ -129,6 +130,16 @@ Route::group(['prefix' => 'admin/education'], function () {
 
 
     Route::delete('{model}', [EducationController::class, 'destroy']);
+});
+
+//MEDICAL
+Route::group(['prefix' => 'admin/medical'], function () {
+    Route::get('', [AdminMedicalController::class, 'index']);
+    Route::get('{model}', [AdminMedicalController::class, 'show']);
+    Route::put('{model}', [AdminMedicalController::class, 'update']);
+    Route::get('specilization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
+    Route::post('bookings', [AdminMedicalController::class, 'showBookings']);
+    // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
 });
 
 
