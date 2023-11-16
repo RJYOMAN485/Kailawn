@@ -34,7 +34,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SpecializationSeeder::class,
-            MedicalSeeder::class
+            MedicalSeeder::class,
+            UserSeeder::class,
 
         ]);
     }
