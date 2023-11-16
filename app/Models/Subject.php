@@ -13,6 +13,8 @@ class Subject extends Model
 
     protected $hidden = ['pivot'];
 
+    protected $appends = ['grade_name'];
+
     public function grade() {
         return $this->belongsTo(Grade::class,'grade_id','id');
     }
@@ -31,5 +33,9 @@ class Subject extends Model
     public function tuitionCenter() {
         return $this->belongsToMany(TuitionCenter::class,'tuitions_centers_subjects','subject_id','tuition_center_id');
 
+    }
+
+    public function getGradeNameAttribute(){
+        return $this->grade()->first()->name;
     }
 }

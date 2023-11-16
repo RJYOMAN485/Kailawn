@@ -10,4 +10,14 @@ class Transport extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
+    const FILLABLE = [
+        'name',
+        'address',
+        'type',
+        'phone_no',
+        'description',
+        'is_active',
+    ];
 }

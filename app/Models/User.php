@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -44,12 +45,22 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function role() {
-        return $this->belongsTo(Role::class,'role_id','id');
+
+    // protected function password(): Attribute
+    // {
+    //     return Attribute::make(
+    //         set: fn (string $value) => bcrypt($value),
+    //     );
+    // }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
 
-    public function admissions() {
-        return $this->hasMany(Admission::class,'user_id','id');
+    public function admissions()
+    {
+        return $this->hasMany(Admission::class, 'user_id', 'id');
     }
 }

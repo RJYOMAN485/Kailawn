@@ -7,6 +7,7 @@ use App\Models\HomeTuition;
 use App\Models\School;
 use App\Models\TuitionCenter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EducationController extends Controller
 {
@@ -40,24 +41,72 @@ class EducationController extends Controller
     public function showSchool(School $model)
     {
         return response()->json([
-            'data' => $model->load(['subjectsOffered','facilities'])
+            'data' => $model->load(['subjectsOffered', 'facilities'])
         ]);
     }
 
-    public function updateHomeTuition(HomeTuition $model,Request $request)
+
+
+    public function updateSchool(School $model, Request $request)
     {
-        $model->update($request->only(HomeTuition::FILLABLE));
+        DB::transaction(function () use ($model, $request) {
+            $model->update($request->only(School::FILLABLE));
+            $model->subjectsOffered()->sync($request->input('subjects'));
+            $model->facilities()->sync($request->input('facilities'));
+        });
+
         return response()->json([
             'data' => 'Successfully updated'
         ]);
     }
 
-    public function updateTuitionCenter(TuitionCenter $model,Request $request)
+    public function updateHomeTuition(HomeTuition $model, Request $request)
     {
         $model->update($request->only(HomeTuition::FILLABLE));
+
+        $model->subjects()->sync($request->input('subjects'));
+
+        return response()->json([
+            'data' => 'Successfully updated'
+        ]);
+    }
+
+    public function updateTuitionCenter(TuitionCenter $model, Request $request)
+    {
+        $model->update($request->only(HomeTuition::FILLABLE));
+
+
+        $model->subjects()->sync($request->input('subjects'));
+
         return response()->json([
             'data' => 'Successfully updated'
 
         ]);
+    }
+
+    public function destroy($str, $id)
+    {
+        switch ($str) {
+            case 'home-tuition':
+                HomeTuition::query()->findOrFail($id)->delete();
+                break;
+
+            case 'tuition-center':
+                TuitionCenter::query()->findOrFail($id)->delete();
+                break;
+
+            case 'school':
+                School::query()->findOrFail($id)->delete();
+                break;
+
+            default:
+                return response()->json([
+                    'message' => 'Invalid parameters'
+                ], 400);
+        }
+
+        return response()->json([
+            'message' =>  'Delete success'
+        ], 200);
     }
 }

@@ -9,8 +9,10 @@ class Role extends Model
 {
     use HasFactory;
 
-    const ADMIN = 1;
-    const USER = 2;
+    const SUPER_ADMIN = 1;
+    const ADMIN = 2;
+
+    const USER = 3;
 
     protected $guarded = [];
 

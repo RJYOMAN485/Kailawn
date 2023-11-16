@@ -62,20 +62,11 @@ class MedicalController extends Controller
         ]);
     }
 
-
-    public function paymentCallback(Request $request, Booking $booking)
+    public function destroy(Request $request, Medical $model)
     {
-        //THIS IS DEMO FUNCTION FOR PAYMENT CALLBACK. PLEASE MODIFY
-        if ($request->payment_status == 'success') {
-            $booking->status = 'success';
-            $booking->is_paid = true;
-        } else {
-            $booking->status = 'payment_failed';
-            $booking->is_paid = false;
-        }
-        $booking->save();
+        $model->delete();
         return response()->json([
-            'message' => 'Payment status here'
+            'data' => 'Deleted successfully'
         ]);
     }
 }

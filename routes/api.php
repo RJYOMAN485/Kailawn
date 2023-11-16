@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\BeautyController as AdminBeautyController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\MedicalController as AdminMedicalController;
+use App\Http\Controllers\Admin\TransportController as AdminTransportController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\UserController;
@@ -75,11 +77,9 @@ Route::group(['prefix' => 'auth/user'], function () {
     Route::post('login', [UserAuthController::class, 'login']);
     Route::post('update', [UserAuthController::class, 'updateProfile'])->middleware('auth:sanctum');
     Route::post('logout', [UserAuthController::class, 'logout'])->middleware('auth:sanctum');
-
-
 });
 
-Route::group(['prefix' => 'auth/user','middleware' => ['auth:sanctum']], function () {
+Route::group(['prefix' => 'auth/user', 'middleware' => ['auth:sanctum']], function () {
     Route::get('admission', [UserController::class, 'getUserAdmission']);
 });
 Route::group(['prefix' => 'education/grade'], function () {
@@ -99,7 +99,7 @@ Route::group(['prefix' => 'medical'], function () {
 
 
 //BEAUTY
-Route::group(['prefix' => 'medical'], function () {
+Route::group(['prefix' => 'beauty'], function () {
     Route::get('', [BeautyController::class, 'index']);
     Route::get('{model}', [BeautyController::class, 'show']);
     Route::post('{model}/beauty-booking', [BeautyController::class, 'bookBeauty'])->middleware('auth:sanctum');
@@ -116,30 +116,51 @@ Route::group(['prefix' => 'transport'], function () {
 
 //ADMIN
 
-//EDUCATION
-Route::group(['prefix' => 'admin/education'], function () {
-    Route::get('', [EducationController::class, 'index']);
-    Route::get('home-tuition/{model}', [EducationController::class, 'showHomeTuition']);
-    Route::get('tuition-center/{model}', [EducationController::class, 'showTuitionCenter']);
-    Route::get('school/{model}', [EducationController::class, 'showSchool']);
+Route::group(['prefix' => 'super'], function () {
+    //EDUCATION
+    Route::group(['prefix' => 'education'], function () {
+        Route::get('', [EducationController::class, 'index']);
 
-    Route::put('home-tuition/{model}', [EducationController::class, 'updateHomeTuition']);
-    Route::put('tuition-center/{model}', [EducationController::class, 'updateTuitionCenter']);
-    Route::put('school/{model}', [EducationController::class, 'updateSchool']);
+        Route::get('home-tuition/{model}', [EducationController::class, 'showHomeTuition']);
+        Route::put('home-tuition/{model}', [EducationController::class, 'updateHomeTuition']);
+
+        Route::get('tuition-center/{model}', [EducationController::class, 'showTuitionCenter']);
+        Route::put('tuition-center/{model}', [EducationController::class, 'updateTuitionCenter']);
+
+
+        Route::get('school/{model}', [EducationController::class, 'showSchool']);
+        Route::put('school/{model}', [EducationController::class, 'updateSchool']);
 
 
 
-    Route::delete('{model}', [EducationController::class, 'destroy']);
+        Route::delete('{str}/{model}', [EducationController::class, 'destroy']);
+    });
+
+    //MEDICAL
+    Route::group(['prefix' => 'medical'], function () {
+        Route::get('', [AdminMedicalController::class, 'index']);
+        Route::get('{model}', [AdminMedicalController::class, 'show']);
+        Route::put('{model}', [AdminMedicalController::class, 'update']);
+        Route::get('specilization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
+        Route::post('bookings', [AdminMedicalController::class, 'showBookings']);
+        Route::delete('{model}', [AdminMedicalController::class, 'destroy']);
+        // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
+    });
+
+    //BEAUTY
+    Route::group(['prefix' => 'beauty'], function () {
+        Route::get('', [AdminBeautyController::class, 'index']);
+        Route::get('{model}', [AdminBeautyController::class, 'show']);
+        Route::post('bookings', [AdminBeautyController::class, 'showBookings']);
+        Route::put('{model}', [AdminBeautyController::class, 'update']);
+        Route::delete('{model}', [AdminBeautyController::class, 'destroy']);
+    });
+
+    //TRANSPORT
+    Route::group(['prefix' => 'transport'], function () {
+        Route::get('', [AdminTransportController::class, 'index']);
+        Route::get('{model}', [AdminTransportController::class, 'show']);
+        Route::put('{model}', [AdminTransportController::class, 'update']);
+        Route::delete('{model}', [AdminTransportController::class, 'destroy']);
+    });
 });
-
-//MEDICAL
-Route::group(['prefix' => 'admin/medical'], function () {
-    Route::get('', [AdminMedicalController::class, 'index']);
-    Route::get('{model}', [AdminMedicalController::class, 'show']);
-    Route::put('{model}', [AdminMedicalController::class, 'update']);
-    Route::get('specilization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
-    Route::post('bookings', [AdminMedicalController::class, 'showBookings']);
-    // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
-});
-
-

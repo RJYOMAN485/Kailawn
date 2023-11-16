@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone_no');
             $table->text('description');
             $table->boolean('is_active')->default(true);
-            $table->enum('type',['house_call','booking']);
+            $table->enum('type', ['house_call', 'booking']);
             $table->timestamps();
         });
     }

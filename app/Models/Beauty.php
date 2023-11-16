@@ -11,8 +11,17 @@ class Beauty extends Model
 
     protected $guarded = [];
 
+    const FILLABLE = [
+        'name',
+        'address',
+        'phone_no',
+        'description',
+        'is_active',
+        'type',
+    ];
 
-    public function bookings() {
-        return $this->morphMany(Booking::class,'owner');
+    public function bookings()
+    {
+        return $this->morphMany(Booking::class, 'owner');
     }
 }

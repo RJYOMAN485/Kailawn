@@ -9,6 +9,8 @@ class TuitionCenter extends Model
 {
     use HasFactory;
 
+    protected $fillable = self::FILLABLE;
+
     const FILLABLE = [
         'name',
         'timing',
@@ -26,7 +28,7 @@ class TuitionCenter extends Model
 
 
     public function subjects() {
-        return $this->belongsToMany(HomeTuition::class,'home_tuitions_subjects','home_tuition_id','subject_id');
+        return $this->belongsToMany(Subject::class,'tuition_centers_subjects','tuition_center_id','subject_id');
     }
 
 

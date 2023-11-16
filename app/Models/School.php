@@ -13,6 +13,21 @@ class School extends Model
     protected $guarded = [];
 
 
+    const FILLABLE = [
+        'name',
+        'timing',
+        'address',
+        'contact',
+        'rules_regulations',
+        'description',
+        'fees_structure',
+        'email',
+        'instagram_link',
+        'youtube_link',
+        'facebook_link',
+        'is_active',
+    ];
+
     protected $hidden = ['pivot'];
 
 
