@@ -16,7 +16,7 @@ class MedicalController extends Controller
     {
         $search = $request->get('search');
         $house_call = Medical::query()->where('appointment_type', 'house_call')
-            ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('doctor_name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%")->orWhere('clinic_name', 'LIKE', "%$search%"))
+            ->when(filled($search), fn($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('doctor_name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%")->orWhere('clinic_name', 'LIKE', "%$search%"))
             ->get();
         $clinic_booking = Medical::query()->where('appointment_type', 'clinic_booking')->get();
 
@@ -37,14 +37,22 @@ class MedicalController extends Controller
     public function showBySpecialization($id)
     {
         return response()->json([
-            'data' => Medical::find($id)
+            'house_call' => Medical::query()->where('specialization_id', $id)->where('appointment_type', 'house_call')->get(),
+            'clinic_booking' => Medical::query()->where('specialization_id', $id)->where('appointment_type', 'clinic_booking')->get(),
         ]);
     }
 
 
     public function showBookings(Request $request)
     {
-        $bookings = Booking::query()->whereHasMorph('owner', [Model::class])->get();
+        $bookings = Booking::query()->whereHasMorph('owner', Medical::class)->get();
+        return response()->json([
+            'data' => $bookings
+        ]);
+    }
+    public function showBooking(Request $request, Medical $model)
+    {
+        $bookings = Booking::query()->whereHasMorph('owner', Medical::class, fn($query) => $query->where('owner_id', $model->id))->get();
         return response()->json([
             'data' => $bookings
         ]);

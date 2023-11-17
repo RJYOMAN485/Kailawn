@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             SpecializationSeeder::class,
             MedicalSeeder::class,
             UserSeeder::class,
+            BookingSeeder::class,
 
         ]);
     }

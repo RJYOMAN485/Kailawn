@@ -115,8 +115,13 @@ Route::group(['prefix' => 'transport'], function () {
 
 
 //ADMIN
+//AUTH
+Route::group(['prefix' => 'super/auth'], function () {
+    Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
+    Route::post('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->middleware('superadmin');
+});
 
-Route::group(['prefix' => 'super'], function () {
+Route::group(['prefix' => 'super', 'middleware' => ['superadmin']], function () {
     //EDUCATION
     Route::group(['prefix' => 'education'], function () {
         Route::get('', [EducationController::class, 'index']);
@@ -139,10 +144,11 @@ Route::group(['prefix' => 'super'], function () {
     //MEDICAL
     Route::group(['prefix' => 'medical'], function () {
         Route::get('', [AdminMedicalController::class, 'index']);
+        Route::get('bookings', [AdminMedicalController::class, 'showBookings']);
+        Route::get('booking/{model}', [AdminMedicalController::class, 'showBooking']);
         Route::get('{model}', [AdminMedicalController::class, 'show']);
         Route::put('{model}', [AdminMedicalController::class, 'update']);
-        Route::get('specilization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
-        Route::post('bookings', [AdminMedicalController::class, 'showBookings']);
+        Route::get('specialization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
         Route::delete('{model}', [AdminMedicalController::class, 'destroy']);
         // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
     });

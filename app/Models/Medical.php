@@ -21,6 +21,8 @@ class Medical extends Model
         'is_active',
     ];
 
+    protected $fillable = self::FILLABLE;
+
 
     public function specialization()
     {

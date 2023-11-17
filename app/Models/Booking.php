@@ -9,7 +9,8 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+
+    const FILLABLE = [
         'full_name',
         'phone_no',
         'address',
@@ -19,7 +20,10 @@ class Booking extends Model
         'user_id',
         'booking_date',
         'status',
+        'is_paid'
     ];
+
+    protected $fillable = self::FILLABLE;
 
 
     public function owner()

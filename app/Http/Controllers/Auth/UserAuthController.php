@@ -43,6 +43,7 @@ class UserAuthController extends Controller
         $auth = Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
+            'role_id' => Role::USER
         ]);
         if ($auth) {
             $auth = User::query()->firstWhere('email', $request->email);
