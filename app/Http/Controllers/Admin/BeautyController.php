@@ -33,6 +33,15 @@ class BeautyController extends Controller
         ]);
     }
 
+    public function store(Request $request) {
+        $beauty = new Beauty($request->only(Beauty::FILLABLE));
+        $beauty->save();
+
+        return response()->json([
+            'message' => 'Data saved successfully'
+        ]);
+    }
+
 
     public function showBookings(Request $request)
     {

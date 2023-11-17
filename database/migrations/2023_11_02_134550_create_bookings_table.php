@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('timing',['morning','afternoon']);
             $table->date('booking_date');
             $table->string('category_name');
-            $table->string('status');
+            $table->enum('status',['pending','completed']);
             $table->nullableMorphs('owner');
             $table->boolean('is_paid')->default(false);
             $table->timestamps();

@@ -9,7 +9,7 @@ class HomeTuition extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $fillable = self::FILLABLE;
 
     const FILLABLE = [
         'address',

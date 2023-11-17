@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BookingSeeder::class,
             BeautySeeder::class,
+            TransportSeeder::class,
 
         ]);
     }

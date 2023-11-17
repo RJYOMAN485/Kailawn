@@ -123,7 +123,7 @@ Route::group(['prefix' => 'super/auth'], function () {
 
 Route::group([
     'prefix' => 'super'
-    , 'middleware' => ['superadmin']
+    // , 'middleware' => ['superadmin']
 ], function () {
     //EDUCATION
     Route::group(['prefix' => 'education'], function () {
@@ -131,13 +131,17 @@ Route::group([
 
         Route::get('home-tuition/{model}', [EducationController::class, 'showHomeTuition']);
         Route::put('home-tuition/{model}', [EducationController::class, 'updateHomeTuition']);
+        Route::post('home-tuition/store', [EducationController::class,'storeHomeTuition']);
 
         Route::get('tuition-center/{model}', [EducationController::class, 'showTuitionCenter']);
         Route::put('tuition-center/{model}', [EducationController::class, 'updateTuitionCenter']);
+        Route::post('tuition-center/store', [EducationController::class,'storeTuitionCenter']);
 
 
         Route::get('school/{model}', [EducationController::class, 'showSchool']);
         Route::put('school/{model}', [EducationController::class, 'updateSchool']);
+        Route::post('school/store', [EducationController::class,'storeSchool']);
+
 
 
 
@@ -151,6 +155,7 @@ Route::group([
         Route::get('booking/{model}', [AdminMedicalController::class, 'showBooking']);
         Route::get('{model}', [AdminMedicalController::class, 'show']);
         Route::put('{model}', [AdminMedicalController::class, 'update']);
+        Route::post('store', [AdminMedicalController::class, 'store']);
         Route::get('specialization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
         Route::delete('{model}', [AdminMedicalController::class, 'destroy']);
         // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
@@ -162,6 +167,7 @@ Route::group([
         Route::get('bookings', [AdminBeautyController::class, 'showBookings']);
         Route::get('booking/{model}', [AdminBeautyController::class, 'showBooking']);
         Route::get('{model}', [AdminBeautyController::class, 'show']);
+        Route::post('store', [AdminBeautyController::class, 'store']);
         Route::put('{model}', [AdminBeautyController::class, 'update']);
         Route::delete('{model}', [AdminBeautyController::class, 'destroy']);
     });
@@ -171,6 +177,7 @@ Route::group([
         Route::get('', [AdminTransportController::class, 'index']);
         Route::get('{model}', [AdminTransportController::class, 'show']);
         Route::put('{model}', [AdminTransportController::class, 'update']);
+        Route::post('store', [AdminTransportController::class, 'store']);
         Route::delete('{model}', [AdminTransportController::class, 'destroy']);
     });
 });

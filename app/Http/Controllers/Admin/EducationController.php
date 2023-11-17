@@ -14,9 +14,9 @@ class EducationController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $data['home_tuition'] = HomeTuition::query()->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "$search"))->orderBy('updated_at', 'ASC')->get();
-        $data['tuition_center'] = TuitionCenter::query()->get();
-        $data['school'] = School::query()->get();
+        $data['home_tuition'] = HomeTuition::query()->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "$search"))->orderBy('updated_at', 'ASC')->with('subjects')->get();
+        $data['tuition_center'] = TuitionCenter::query()->with('subjects')->get();
+        $data['school'] = School::query()->with('subjectsOffered')->get();
 
         return response()->json([
             'data' => $data
@@ -81,6 +81,37 @@ class EducationController extends Controller
         return response()->json([
             'data' => 'Successfully updated'
 
+        ]);
+    }
+
+    public function storeHomeTuition(Request $request)
+    {
+        $homeTuition = new HomeTuition($request->only(HomeTuition::FILLABLE));
+        $homeTuition->save();
+        $homeTuition->subjects()->sync($request->input('subjects'));
+
+        return response()->json([
+            'data' => 'Data saved successfully'
+        ]);
+    }
+    public function storeTuitionCenter(Request $request)
+    {
+        $tuitionCenter = new TuitionCenter($request->only(TuitionCenter::FILLABLE));
+        $tuitionCenter->save();
+        $tuitionCenter->subjects()->sync($request->input('subjects'));
+
+        return response()->json([
+            'data' => 'Data saved successfully'
+        ]);
+    }
+    public function storeSchool(Request $request)
+    {
+        $school = new School($request->only(School::FILLABLE));
+        $school->save();
+        $school->subjectsOffered()->sync($request->input('subjects'));
+        $school->facilities()->sync($request->input('facilities'));
+        return response()->json([
+            'data' => 'Data saved successfully'
         ]);
     }
 

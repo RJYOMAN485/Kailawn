@@ -34,6 +34,17 @@ class MedicalController extends Controller
         ]);
     }
 
+    public function store(Request $request) {
+        $medical = new Medical($request->only(Medical::FILLABLE));
+        $medical->save();
+
+
+        return response()->json([
+            'message' => 'Data Saved Successfully'
+        ]);
+
+    }
+
     public function showBySpecialization($id)
     {
         return response()->json([

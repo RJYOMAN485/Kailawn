@@ -33,6 +33,17 @@ class TransportController extends Controller
     }
 
 
+    public function store(Request $request) {
+        $transport = new Transport($request->only(Transport::FILLABLE));
+        $transport->save();
+
+        return response()->json([
+            'message' => 'Data saved successfully',
+        ]);
+
+    }
+
+
 
     public function update(Request $request, Transport $model)
     {
@@ -50,7 +61,7 @@ class TransportController extends Controller
     {
         $model->delete();
         return response()->json([
-            'data' => 'Deleted successfully'
+            'message' => 'Deleted successfully'
         ]);
     }
 }
