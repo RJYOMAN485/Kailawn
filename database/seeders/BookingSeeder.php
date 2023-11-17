@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Beauty;
 use App\Models\Booking;
 use App\Models\Medical;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -14,20 +15,9 @@ class BookingSeeder extends Seeder
      */
     public function run(): void
     {
-        // 'full_name',
-        // 'phone_no',
-        // 'address',
-        // 'age',
-        // 'timing',
-        // 'category_name',
-        // 'user_id',
-        // 'booking_date',
-        // 'status',
-        // 'is_paid'
-
+        Booking::truncate();
         $medical = Medical::find(1);
-
-        $booking = Booking::query()->create([
+        $medicalBooking = Booking::query()->create([
             'full_name' => 'Test Booker',
             'user_id' => 1,
             'phone_no' => '825886551',
@@ -39,9 +29,24 @@ class BookingSeeder extends Seeder
             'status' => 'completed',
             'is_paid' => 1,
         ]);
+        $medicalBooking->owner()->associate($medical);
+        $medicalBooking->save();
 
-        $booking->owner()->associate($medical);
-
-        $booking->save();
+        //Beauty
+        $beauty = Beauty::find(1);
+        $beautyBooking = Booking::query()->create([
+            'full_name' => 'Beauty Booker',
+            'user_id' => 1,
+            'phone_no' => '2563987465',
+            'address' => 'College Veng',
+            'age' => '38',
+            'timing' => 'morning',
+            'category_name' => 'Beauty',
+            'booking_date' => '2023-11-20',
+            'status' => 'completed',
+            'is_paid' => 1,
+        ]);
+        $beautyBooking->owner()->associate($beauty);
+        $beautyBooking->save();
     }
 }

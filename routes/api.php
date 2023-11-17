@@ -121,7 +121,10 @@ Route::group(['prefix' => 'super/auth'], function () {
     Route::post('logout', [\App\Http\Controllers\Admin\AuthController::class, 'logout'])->middleware('superadmin');
 });
 
-Route::group(['prefix' => 'super', 'middleware' => ['superadmin']], function () {
+Route::group([
+    'prefix' => 'super'
+    , 'middleware' => ['superadmin']
+], function () {
     //EDUCATION
     Route::group(['prefix' => 'education'], function () {
         Route::get('', [EducationController::class, 'index']);
@@ -156,8 +159,9 @@ Route::group(['prefix' => 'super', 'middleware' => ['superadmin']], function () 
     //BEAUTY
     Route::group(['prefix' => 'beauty'], function () {
         Route::get('', [AdminBeautyController::class, 'index']);
+        Route::get('bookings', [AdminBeautyController::class, 'showBookings']);
+        Route::get('booking/{model}', [AdminBeautyController::class, 'showBooking']);
         Route::get('{model}', [AdminBeautyController::class, 'show']);
-        Route::post('bookings', [AdminBeautyController::class, 'showBookings']);
         Route::put('{model}', [AdminBeautyController::class, 'update']);
         Route::delete('{model}', [AdminBeautyController::class, 'destroy']);
     });

@@ -15,13 +15,13 @@ class BeautyController extends Controller
         $house_call = Beauty::query()->where('type', 'house_call')
             ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%"))
             ->get();
-        $clinic_booking = Beauty::query()->where('type', 'booking')
+        $booking = Beauty::query()->where('type', 'booking')
             ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%"))
             ->get();
 
         return response()->json([
             'house_call' => $house_call,
-            'clinic_booking' => $clinic_booking,
+            'booking' => $booking,
         ]);
     }
 
@@ -36,7 +36,16 @@ class BeautyController extends Controller
 
     public function showBookings(Request $request)
     {
-        $bookings = Booking::query()->whereHasMorph('owner', [Beauty::class])->get();
+        $bookings = Booking::query()->whereHasMorph('owner', Beauty::class)->get();
+        return response()->json([
+            'data' => $bookings
+        ]);
+    }
+
+
+    public function showBooking(Request $request, Beauty $model)
+    {
+        $bookings = Booking::query()->whereHasMorph('owner', Beauty::class, fn($query) => $query->where('owner_id', $model->id))->get();
         return response()->json([
             'data' => $bookings
         ]);
@@ -46,8 +55,6 @@ class BeautyController extends Controller
     public function update(Request $request, Beauty $model)
     {
         $model->update($request->only(Beauty::FILLABLE));
-
-
         return response()->json([
             'data' => 'Successfully updated'
         ]);

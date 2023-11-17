@@ -23,21 +23,6 @@ class UserAuthController extends Controller
         return response()->json(['data' => auth()->user()]);
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'name' => 'required',
-    //         'email' => 'required|unique:users,email',
-    //         'password' => 'required',
-    //         'role_id' => 'required'
-    //     ]);
-
-    //     User::query()->create($validated);
-
-    //     return response()->json(['message' => 'User Registration Success']);
-    // }
-
-
     public function login(Request $request)
     {
         $auth = Auth::attempt([
