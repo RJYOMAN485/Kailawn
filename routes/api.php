@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BeautyController as AdminBeautyController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\MedicalController as AdminMedicalController;
 use App\Http\Controllers\Admin\TransportController as AdminTransportController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Auth\UserController;
@@ -142,8 +143,9 @@ Route::group([
         Route::put('school/{model}', [EducationController::class, 'updateSchool']);
         Route::post('school/store', [EducationController::class,'storeSchool']);
 
-
-
+        Route::post('assign-user-home-tuition/{model}', [EducationController::class, 'assignUserHomeTuition']);
+        Route::post('assign-user-tuitin-center/{model}', [EducationController::class, 'assignUserTuitionCenter']);
+        Route::post('assign-user-school/{model}', [EducationController::class, 'assignUserSchool']);
 
         Route::delete('{str}/{model}', [EducationController::class, 'destroy']);
     });
@@ -169,6 +171,7 @@ Route::group([
         Route::get('{model}', [AdminBeautyController::class, 'show']);
         Route::post('store', [AdminBeautyController::class, 'store']);
         Route::put('{model}', [AdminBeautyController::class, 'update']);
+        Route::post('assign-user/{model}', [AdminBeautyController::class, 'assignUser']);
         Route::delete('{model}', [AdminBeautyController::class, 'destroy']);
     });
 
@@ -178,6 +181,16 @@ Route::group([
         Route::get('{model}', [AdminTransportController::class, 'show']);
         Route::put('{model}', [AdminTransportController::class, 'update']);
         Route::post('store', [AdminTransportController::class, 'store']);
+        Route::post('assign-user/{model}', [AdminTransportController::class, 'assignUser']);
         Route::delete('{model}', [AdminTransportController::class, 'destroy']);
+    });
+
+     //USER
+     Route::group(['prefix' => 'user'], function () {
+        Route::get('', [AdminUserController::class, 'index']);
+        Route::get('{model}', [AdminUserController::class, 'show']);
+        Route::put('{model}', [AdminUserController::class, 'update']);
+        Route::post('store', [AdminUserController::class, 'store']);
+        Route::delete('{model}', [AdminUserController::class, 'destroy']);
     });
 });

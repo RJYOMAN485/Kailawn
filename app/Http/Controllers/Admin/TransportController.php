@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transport;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransportController extends Controller
@@ -52,6 +53,24 @@ class TransportController extends Controller
 
         return response()->json([
             'data' => 'Successfully updated'
+        ]);
+    }
+
+
+    public function assignUser(Request $request, Transport $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail($request->user_id);
+
+        $model->admin()->associate($admin);
+
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
         ]);
     }
 

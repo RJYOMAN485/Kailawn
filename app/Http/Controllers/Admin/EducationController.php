@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeTuition;
 use App\Models\School;
 use App\Models\TuitionCenter;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -35,6 +36,50 @@ class EducationController extends Controller
     {
         return response()->json([
             'data' => $model->load('subjects')
+        ]);
+    }
+
+
+    public function assignUserHomeTuition(Request $request, HomeTuition $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail($request->user_id);
+        $model->admin()->associate($admin);
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
+        ]);
+    }
+    public function assignUserTuitionCenter(Request $request, TuitionCenter $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail($request->user_id);
+        $model->admin()->associate($admin);
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
+        ]);
+    }
+    public function assignUserSchool(Request $request, School $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail($request->user_id);
+        $model->admin()->associate($admin);
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
         ]);
     }
 

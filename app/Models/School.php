@@ -14,6 +14,7 @@ class School extends Model
 
 
     const FILLABLE = [
+        'user_id',
         'name',
         'timing',
         'address',
@@ -29,9 +30,11 @@ class School extends Model
     ];
 
     protected $hidden = ['pivot'];
-
-
     protected $appends = ['admission_open','facilities'];
+
+    public function admin(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
 
     public function subjectsOffered() {
         return $this->belongsToMany(Subject::class,'school_subjects_offered','school_id','subject_id');

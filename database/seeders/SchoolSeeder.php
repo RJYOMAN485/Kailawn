@@ -23,6 +23,7 @@ class SchoolSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             School::query()->create([
                 'name' => fake()->name . 'School',
+                'user_id' => $i == 0 ? 3 : null,
                 'timing' => '10:00 am - 6:00 am',
                 'address' => fake()->address,
                 'contact' => fake()->phoneNumber,

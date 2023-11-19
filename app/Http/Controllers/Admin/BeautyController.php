@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Beauty;
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BeautyController extends Controller
@@ -33,7 +34,8 @@ class BeautyController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $beauty = new Beauty($request->only(Beauty::FILLABLE));
         $beauty->save();
 
@@ -54,7 +56,7 @@ class BeautyController extends Controller
 
     public function showBooking(Request $request, Beauty $model)
     {
-        $bookings = Booking::query()->whereHasMorph('owner', Beauty::class, fn($query) => $query->where('owner_id', $model->id))->get();
+        $bookings = Booking::query()->whereHasMorph('owner', Beauty::class, fn ($query) => $query->where('owner_id', $model->id))->get();
         return response()->json([
             'data' => $bookings
         ]);
@@ -75,10 +77,24 @@ class BeautyController extends Controller
     {
         $model->delete();
         return response()->json([
-            'data' => 'Deleted successfully'
+            'message' => 'Deleted successfully'
         ]);
     }
 
+    public function assignUser(Request $request, Beauty $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
 
+        $admin = User::findOrFail($request->user_id);
 
+        $model->admin()->associate($admin);
+
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
+        ]);
+    }
 }

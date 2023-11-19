@@ -14,6 +14,7 @@ class Transport extends Model
 
     const FILLABLE = [
         'name',
+        'fee',
         'address',
         'type',
         'phone_no',

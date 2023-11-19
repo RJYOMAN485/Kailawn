@@ -26,13 +26,30 @@ class UserSeeder extends Seeder
             'email' => 'admin@email.com',
             'password' => 'password',
             'role_id' => Role::SUPER_ADMIN
+        ],
+        [
+            'id' => 3,
+            'name' => 'school',
+            'email' => 'school@email.com',
+            'password' => 'password',
+            'role_id' => Role::SCHOOL
+        ],
+        [
+            'id' => 4,
+            'name' => 'beauty',
+            'email' => 'beauty@email.com',
+            'password' => 'password',
+            'role_id' => Role::SCHOOL
         ]
-        ];
-     public function run(): void
+    ];
+    public function run(): void
     {
         // User::query()->upsert(self::DATA,'id');
         User::truncate();
-        User::query()->create(self::DATA[0]);
-        User::query()->create(self::DATA[1]);
+
+        for ($i = 0; $i < count(self::DATA); $i++) {
+            User::query()->create(self::DATA[$i]);
+            // User::query()->create(self::DATA[1]);
+        }
     }
 }

@@ -44,8 +44,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-
     // protected function password(): Attribute
     // {
     //     return Attribute::make(
@@ -56,6 +54,11 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function owner()
+    {
+        return $this->morphTo('owner');
     }
 
 
