@@ -12,6 +12,7 @@ class HomeTuition extends Model
     protected $fillable = self::FILLABLE;
 
     const FILLABLE = [
+        'name',
         'address',
         'tutor_name',
         'timing',

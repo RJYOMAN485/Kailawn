@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BeautyController as AdminBeautyController;
 use App\Http\Controllers\Admin\EducationController;
 use App\Http\Controllers\Admin\MedicalController as AdminMedicalController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\TransportController as AdminTransportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\AuthController;
@@ -51,7 +52,7 @@ Route::group(['prefix' => 'education/home-tuition'], function () {
     Route::get('', [HomeTuitionController::class, 'index']);
     Route::get('{model}', [HomeTuitionController::class, 'show']);
     Route::get('grade/{grade}', [HomeTuitionController::class, 'showByGrade']);
-    Route::get('subjects/{subject}', [HomeTuitionController::class, 'showBySubject']);
+    Route::get('subject/{subject}', [HomeTuitionController::class, 'showBySubject']);
 });
 
 
@@ -59,17 +60,20 @@ Route::group(['prefix' => 'education/tuition-center'], function () {
     Route::get('', [TuitionCenterController::class, 'index']);
     Route::get('{model}', [TuitionCenterController::class, 'show']);
     Route::get('grade/{grade}', [TuitionCenterController::class, 'showByGrade']);
-    Route::get('subjects/{subject}', [TuitionCenterController::class, 'showBySubject']);
+    Route::get('subject/{subject}', [TuitionCenterController::class, 'showBySubject']);
 });
 
 Route::group(['prefix' => 'education/school'], function () {
     Route::get('', [SchoolController::class, 'index']);
     Route::get('{model}', [SchoolController::class, 'show']);
     Route::get('grade/{grade}', [SchoolController::class, 'showByGrade']);
-    Route::get('subjects/{subject}', [SchoolController::class, 'showBySubject']);
+    Route::get('subject/{subject}', [SchoolController::class, 'showBySubject']);
     Route::get('{school}/subjects', [SchoolController::class, 'getSubjectOffer']);
     Route::get('{school}/admission/subjects', [SchoolController::class, 'getAvailableAdmission']);
-    Route::post('{school}/admission/store', [SchoolController::class, 'storeAdmission'])->middleware('auth:sanctum');
+    Route::post('{school}/admission/store', [SchoolController::class, 'storeAdmission'])
+        //please uncomment middleware
+        // ->middleware('auth:sanctum');
+    ;
 });
 
 
@@ -97,8 +101,6 @@ Route::group(['prefix' => 'medical'], function () {
     Route::get('payment/response-handler/{booking}', [MedicalController::class, 'paymentCallback']);
 });
 
-
-
 //BEAUTY
 Route::group(['prefix' => 'beauty'], function () {
     Route::get('', [BeautyController::class, 'index']);
@@ -115,7 +117,9 @@ Route::group(['prefix' => 'transport'], function () {
 });
 
 
-//ADMIN
+//ADMIN API
+
+
 //AUTH
 Route::group(['prefix' => 'super/auth'], function () {
     Route::post('login', [\App\Http\Controllers\Admin\AuthController::class, 'login']);
@@ -132,16 +136,16 @@ Route::group([
 
         Route::get('home-tuition/{model}', [EducationController::class, 'showHomeTuition']);
         Route::put('home-tuition/{model}', [EducationController::class, 'updateHomeTuition']);
-        Route::post('home-tuition/store', [EducationController::class,'storeHomeTuition']);
+        Route::post('home-tuition/store', [EducationController::class, 'storeHomeTuition']);
 
         Route::get('tuition-center/{model}', [EducationController::class, 'showTuitionCenter']);
         Route::put('tuition-center/{model}', [EducationController::class, 'updateTuitionCenter']);
-        Route::post('tuition-center/store', [EducationController::class,'storeTuitionCenter']);
+        Route::post('tuition-center/store', [EducationController::class, 'storeTuitionCenter']);
 
 
         Route::get('school/{model}', [EducationController::class, 'showSchool']);
         Route::put('school/{model}', [EducationController::class, 'updateSchool']);
-        Route::post('school/store', [EducationController::class,'storeSchool']);
+        Route::post('school/store', [EducationController::class, 'storeSchool']);
 
         Route::post('assign-user-home-tuition/{model}', [EducationController::class, 'assignUserHomeTuition']);
         Route::post('assign-user-tuitin-center/{model}', [EducationController::class, 'assignUserTuitionCenter']);
@@ -159,6 +163,7 @@ Route::group([
         Route::put('{model}', [AdminMedicalController::class, 'update']);
         Route::post('store', [AdminMedicalController::class, 'store']);
         Route::get('specialization/{id}', [AdminMedicalController::class, 'showBySpecialization']);
+        Route::post('assign-user/{model}', [AdminMedicalController::class, 'assignUser']);
         Route::delete('{model}', [AdminMedicalController::class, 'destroy']);
         // Route::get('payment/response-handler/{booking}', [AdminMedicalController::class, 'paymentCallback']);
     });
@@ -185,12 +190,21 @@ Route::group([
         Route::delete('{model}', [AdminTransportController::class, 'destroy']);
     });
 
-     //USER
-     Route::group(['prefix' => 'user'], function () {
+    //USER
+    Route::group(['prefix' => 'user'], function () {
         Route::get('', [AdminUserController::class, 'index']);
         Route::get('{model}', [AdminUserController::class, 'show']);
         Route::put('{model}', [AdminUserController::class, 'update']);
         Route::post('store', [AdminUserController::class, 'store']);
         Route::delete('{model}', [AdminUserController::class, 'destroy']);
+    });
+
+    //USER
+    Route::group(['prefix' => 'role'], function () {
+        Route::get('', [RoleController::class, 'index']);
+        Route::get('{model}', [RoleController::class, 'show']);
+        Route::put('{model}', [RoleController::class, 'update']);
+        Route::post('store', [RoleController::class, 'store']);
+        Route::delete('{model}', [RoleController::class, 'destroy']);
     });
 });

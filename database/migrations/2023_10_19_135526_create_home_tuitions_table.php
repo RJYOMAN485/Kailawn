@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('home_tuitions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('address')->nullable();
             $table->string('tutor_name')->nullable();
             $table->string('timing')->nullable();

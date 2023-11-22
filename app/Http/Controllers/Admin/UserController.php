@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required',
@@ -66,7 +66,7 @@ class UserController extends Controller
     {
         $model->delete();
         return response()->json([
-            'message' => 'User delete',
+            'message' => 'User deleted',
         ]);
     }
 }

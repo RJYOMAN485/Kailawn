@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(School::class,'school_id')->nullable();
             $table->foreignIdFor(Subject::class,'subject_id')->nullable();
+            // $table->string('admission_fee')->nullable();
+            // $table->string('description')->nullable();
             $table->boolean('admission_open')->default(true);
             $table->timestamps();
         });

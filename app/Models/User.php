@@ -35,6 +35,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['role'];
+
     /**
      * The attributes that should be cast.
      *
@@ -54,6 +56,10 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'id');
+    }
+
+    public function getRoleAttribute(){
+        return $this->role()->first();
     }
 
     public function owner()

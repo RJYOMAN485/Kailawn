@@ -74,8 +74,25 @@ class SchoolController extends Controller
         ], 200);
     }
 
+    public function getAvailableAdmission(School $school)
+    {
+        $data =  $school->subjectsOffered()->where('admission_open', true)->get();
 
-    public function getSubjectOffer(School $school) {
-        return $school->subjectsOffered()->get(['subjects.id','subjects.name']);
+        return [
+            'data' => $data
+        ];
+    }
+
+
+    public function getSubjectOffer(School $school)
+    {
+        // return $school->subjectsOffered()->get(['subjects.id','subjects.name']);
+        return $school->subjectsOffered()->get()->map(function (Subject $subject) {
+            return [
+                'id' => $subject->id,
+                'name' => $subject->name,
+                'grade_name' => $subject->grade_name
+            ];
+        });
     }
 }
