@@ -5,20 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transport extends Model
+class TransportRental extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
-
     const FILLABLE = [
         'name',
-        'fee',
+        'vehicle_type',
+        'vehicle',
+        'seat_capacity',
+        'carrier',
+        'registration',
+        'rate',
+        'owner',
         'address',
-        'type',
         'phone_no',
-        'description',
-        'is_active',
     ];
+
+    protected $fillable = self::FILLABLE;
 }

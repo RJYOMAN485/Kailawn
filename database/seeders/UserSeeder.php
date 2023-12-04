@@ -40,6 +40,20 @@ class UserSeeder extends Seeder
             'email' => 'beauty@email.com',
             'password' => 'password',
             'role_id' => Role::SCHOOL
+        ],
+        [
+            'id' => 5,
+            'name' => 'Joseph Counter',
+            'email' => 'counter@email.com',
+            'password' => 'password',
+            'role_id' => Role::COUNTER
+        ],
+        [
+            'id' => 6,
+            'name' => 'Vohbik Counter',
+            'email' => 'counter2@email.com',
+            'password' => 'password',
+            'role_id' => Role::COUNTER
         ]
     ];
     public function run(): void

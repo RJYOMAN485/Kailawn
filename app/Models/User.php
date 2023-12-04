@@ -58,7 +58,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 
-    public function getRoleAttribute(){
+    public function getRoleAttribute()
+    {
         return $this->role()->first();
     }
 
@@ -71,5 +72,17 @@ class User extends Authenticatable
     public function admissions()
     {
         return $this->hasMany(Admission::class, 'user_id', 'id');
+    }
+
+    //ALL USER BOOKINGS EXCEPT COUNTER BOOKING
+    public function bookings() {
+        return $this->hasMany(Booking::class,'user_id', 'id');
+    }
+
+
+    //USER SUMO COUNTER BOOKING
+    public function counterBookings()
+    {
+        return $this->hasMany(CounterBooking::class, 'user_id', 'id');
     }
 }

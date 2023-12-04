@@ -19,6 +19,7 @@ class HomeTuitionSeeder extends Seeder
         HomeTuition::truncate();
         for ($i = 0; $i < 20; $i++) {
             HomeTuition::query()->create([
+                'name' => fake()->name . 'Home Tuition',
                 'address' => fake()->address,
                 'tutor_name' => fake()->name,
                 'timing' => '10:00 am - 6:00 am',

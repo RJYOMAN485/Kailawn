@@ -16,6 +16,8 @@ use App\Http\Controllers\Education\HomeTuitionController;
 use App\Http\Controllers\Education\SchoolController;
 use App\Http\Controllers\Education\TuitionCenterController;
 use App\Http\Controllers\Medical\MedicalController;
+use App\Http\Controllers\Transport\CounterController;
+use App\Http\Controllers\Transport\RentalController;
 use App\Http\Controllers\Transport\TransportController;
 use App\Http\Controllers\TypeController;
 use Illuminate\Http\Request;
@@ -96,8 +98,11 @@ Route::group(['prefix' => 'education/grade'], function () {
 Route::group(['prefix' => 'medical'], function () {
     Route::get('', [MedicalController::class, 'index']);
     Route::get('{model}', [MedicalController::class, 'show']);
-    Route::get('specilization/{id}', [MedicalController::class, 'showBySpecialization']);
-    Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic'])->middleware('auth:sanctum');
+    Route::get('specialization/{id}', [MedicalController::class, 'showBySpecialization']);
+    Route::post('{model}/clinic-booking', [MedicalController::class, 'bookClinic'])
+        //uncomment below
+        // ->middleware('auth:sanctum')
+    ;
     Route::get('payment/response-handler/{booking}', [MedicalController::class, 'paymentCallback']);
 });
 
@@ -112,8 +117,16 @@ Route::group(['prefix' => 'beauty'], function () {
 
 //TRANSPORT
 Route::group(['prefix' => 'transport'], function () {
-    Route::get('', [TransportController::class, 'index']);
-    Route::get('{model}', [TransportController::class, 'show']);
+
+    //search by counter name,destination,booking_date
+    Route::get('counter', [CounterController::class, 'index']);
+    Route::post('counter/{model}/booking', [CounterController::class, 'storeBooking'])
+        //uncomment this line
+        // ->middleware('auth:sanctum')
+    ;
+
+    Route::get('rental', [RentalController::class, 'index']);
+    Route::get('rental/{model}', [RentalController::class, 'show']);
 });
 
 
@@ -183,8 +196,10 @@ Route::group([
     //TRANSPORT
     Route::group(['prefix' => 'transport'], function () {
         Route::get('', [AdminTransportController::class, 'index']);
-        Route::get('{model}', [AdminTransportController::class, 'show']);
-        Route::put('{model}', [AdminTransportController::class, 'update']);
+        Route::get('counter/{model}', [AdminTransportController::class, 'showCounter']);
+        Route::get('rental/{model}', [AdminTransportController::class, 'showCounter']);
+
+        Route::put('counter/{model}', [AdminTransportController::class, 'updateCounter']);
         Route::post('store', [AdminTransportController::class, 'store']);
         Route::post('assign-user/{model}', [AdminTransportController::class, 'assignUser']);
         Route::delete('{model}', [AdminTransportController::class, 'destroy']);

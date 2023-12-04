@@ -16,7 +16,7 @@ class Role extends Model
 
     const BEAUTY = 5;
 
-    const TRANSPORT = 6;
+    const COUNTER = 6;
 
     protected $guarded = [];
 

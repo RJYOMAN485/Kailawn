@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transport;
+use App\Models\TransportCounter;
+use App\Models\TransportRental;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,10 +14,10 @@ class TransportController extends Controller
     public function index(Request $request)
     {
         $search = $request->get('search');
-        $counter = Transport::query()->where('type', 'counter')->where('is_active', true)
+        $counter = TransportCounter::query()->where('is_active', true)
             ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%"))
             ->get();
-        $rental = Transport::query()->where('type', 'rental')->where('is_active', true)
+        $rental = TransportRental::query()->where('is_active', true)
             ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', "%$search%")->orWhere('address', 'LIKE', "%$search%"))
             ->get();
 
@@ -26,7 +28,13 @@ class TransportController extends Controller
     }
 
 
-    public function show(Transport $model)
+    public function showCounter(TransportCounter $model)
+    {
+        return response()->json([
+            'data' => $model->load('bookings'),
+        ]);
+    }
+    public function showRental(TransportRental $model)
     {
         return response()->json([
             'data' => $model,
@@ -46,9 +54,19 @@ class TransportController extends Controller
 
 
 
-    public function update(Request $request, Transport $model)
+    public function updateCounter(Request $request, TransportCounter $model)
     {
-        $model->update($request->only(Transport::FILLABLE));
+        $model->update($request->only(TransportCounter::FILLABLE));
+
+        $model->counterVillages()->sync($request->input('destinations_id'));
+
+        return response()->json([
+            'data' => 'Successfully updated'
+        ]);
+    }
+    public function updateRental(Request $request, TransportRental $model)
+    {
+        $model->update($request->only(TransportRental::FILLABLE));
 
 
         return response()->json([
