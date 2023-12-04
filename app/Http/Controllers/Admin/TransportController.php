@@ -42,8 +42,18 @@ class TransportController extends Controller
     }
 
 
-    public function store(Request $request) {
-        $transport = new Transport($request->only(Transport::FILLABLE));
+    public function storeCounter(Request $request) {
+        $transport = new TransportCounter($request->only(TransportCounter::FILLABLE));
+        $transport->counterVillages()->sync($request->input('destinations_id'));
+        $transport->save();
+
+        return response()->json([
+            'message' => 'Data saved successfully',
+        ]);
+
+    }
+    public function storeRental(Request $request) {
+        $transport = new TransportRental($request->only(TransportRental::FILLABLE));
         $transport->save();
 
         return response()->json([
@@ -75,7 +85,23 @@ class TransportController extends Controller
     }
 
 
-    public function assignUser(Request $request, Transport $model)
+    public function assignCounterUser(Request $request, TransportCounter $model)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        $admin = User::findOrFail($request->user_id);
+
+        $model->admin()->associate($admin);
+
+        $model->save();
+
+        return response()->json([
+            'message' => 'User assigned successfully'
+        ]);
+    }
+    public function assignRentalUser(Request $request, TransportRental $model)
     {
         $request->validate([
             'user_id' => 'required|exists:users,id'
@@ -94,7 +120,14 @@ class TransportController extends Controller
 
 
 
-    public function destroy(Request $request, Transport $model)
+    public function destroyCounter(Request $request, TransportCounter $model)
+    {
+        $model->delete();
+        return response()->json([
+            'message' => 'Deleted successfully'
+        ]);
+    }
+    public function destroyRental(Request $request, TransportRental $model)
     {
         $model->delete();
         return response()->json([

@@ -10,6 +10,7 @@ class Medical extends Model
     use HasFactory;
 
     const FILLABLE = [
+        'user_id',
         'doctor_name',
         'specialization_id',
         'appointment_type',

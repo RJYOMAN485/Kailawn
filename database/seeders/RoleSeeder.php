@@ -39,6 +39,14 @@ class RoleSeeder extends Seeder
             'id' => 5,
             'name' => 'Beauty'
         ],
+        [
+            'id' => 6,
+            'name' => 'Counter'
+        ],
+        [
+            'id' => 7,
+            'name' => 'Medical'
+        ],
     ];
     public function run(): void
     {

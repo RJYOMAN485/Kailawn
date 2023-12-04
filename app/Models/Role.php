@@ -17,6 +17,12 @@ class Role extends Model
     const BEAUTY = 5;
 
     const COUNTER = 6;
+    const MEDICAL = 7;
+
+
+
+
+
 
     protected $guarded = [];
 

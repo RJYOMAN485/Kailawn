@@ -96,8 +96,8 @@ class EducationController extends Controller
     {
         DB::transaction(function () use ($model, $request) {
             $model->update($request->only(School::FILLABLE));
-            $model->subjectsOffered()->sync($request->input('subjects'));
-            $model->facilities()->sync($request->input('facilities'));
+            $model->subjectsOffered()->sync($request->input('subject_ids'));
+            $model->facilities()->sync($request->input('facility_ids'));
         });
 
         return response()->json([
@@ -109,7 +109,7 @@ class EducationController extends Controller
     {
         $model->update($request->only(HomeTuition::FILLABLE));
 
-        $model->subjects()->sync($request->input('subjects'));
+        $model->subjects()->sync($request->input('subject_ids'));
 
         return response()->json([
             'data' => 'Successfully updated'
@@ -121,7 +121,7 @@ class EducationController extends Controller
         $model->update($request->only(HomeTuition::FILLABLE));
 
 
-        $model->subjects()->sync($request->input('subjects'));
+        $model->subjects()->sync($request->input('subject_ids'));
 
         return response()->json([
             'data' => 'Successfully updated'
@@ -133,7 +133,7 @@ class EducationController extends Controller
     {
         $homeTuition = new HomeTuition($request->only(HomeTuition::FILLABLE));
         $homeTuition->save();
-        $homeTuition->subjects()->sync($request->input('subjects'));
+        $homeTuition->subjects()->sync($request->input('subject_ids'));
 
         return response()->json([
             'data' => 'Data saved successfully'
@@ -143,7 +143,7 @@ class EducationController extends Controller
     {
         $tuitionCenter = new TuitionCenter($request->only(TuitionCenter::FILLABLE));
         $tuitionCenter->save();
-        $tuitionCenter->subjects()->sync($request->input('subjects'));
+        $tuitionCenter->subjects()->sync($request->input('subject_ids'));
 
         return response()->json([
             'data' => 'Data saved successfully'
@@ -153,8 +153,8 @@ class EducationController extends Controller
     {
         $school = new School($request->only(School::FILLABLE));
         $school->save();
-        $school->subjectsOffered()->sync($request->input('subjects'));
-        $school->facilities()->sync($request->input('facilities'));
+        $school->subjectsOffered()->sync($request->input('subject_ids'));
+        $school->facilities()->sync($request->input('facility_ids'));
         return response()->json([
             'data' => 'Data saved successfully'
         ]);

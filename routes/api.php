@@ -16,6 +16,8 @@ use App\Http\Controllers\Education\HomeTuitionController;
 use App\Http\Controllers\Education\SchoolController;
 use App\Http\Controllers\Education\TuitionCenterController;
 use App\Http\Controllers\Medical\MedicalController;
+use App\Http\Controllers\MedicalAdmin\MedicalAdminController;
+use App\Http\Controllers\SchoolAdmin\SchoolAdminController;
 use App\Http\Controllers\Transport\CounterController;
 use App\Http\Controllers\Transport\RentalController;
 use App\Http\Controllers\Transport\TransportController;
@@ -141,6 +143,7 @@ Route::group(['prefix' => 'super/auth'], function () {
 
 Route::group([
     'prefix' => 'super'
+    //uncomment below line while testing
     // , 'middleware' => ['superadmin']
 ], function () {
     //EDUCATION
@@ -200,9 +203,15 @@ Route::group([
         Route::get('rental/{model}', [AdminTransportController::class, 'showCounter']);
 
         Route::put('counter/{model}', [AdminTransportController::class, 'updateCounter']);
-        Route::post('store', [AdminTransportController::class, 'store']);
-        Route::post('assign-user/{model}', [AdminTransportController::class, 'assignUser']);
-        Route::delete('{model}', [AdminTransportController::class, 'destroy']);
+        Route::put('rental/{model}', [AdminTransportController::class, 'updateRental']);
+
+        Route::post('counter/store', [AdminTransportController::class, 'storeCounter']);
+        Route::post('rental/store', [AdminTransportController::class, 'storeCounter']);
+
+        Route::post('counter/assign-user/{model}', [AdminTransportController::class, 'assignCounterUser']);
+        Route::post('rental/assign-user/{model}', [AdminTransportController::class, 'assignRentalUser']);
+        Route::delete('counter/{model}', [AdminTransportController::class, 'destroyCounter']);
+        Route::delete('counter/{model}', [AdminTransportController::class, 'destroyRental']);
     });
 
     //USER
@@ -222,4 +231,38 @@ Route::group([
         Route::post('store', [RoleController::class, 'store']);
         Route::delete('{model}', [RoleController::class, 'destroy']);
     });
+
+
+
+
+
+
+
+
+    //SCHOOL ADMIN
+    Route::group([
+        'prefix' => 'school-admin'
+        //uncomment below line while testing
+        // , 'middleware' => ['schooladmin']
+    ], function () {
+        Route::get('', [SchoolAdminController::class, 'index']);
+        Route::get('admissions', [SchoolAdminController::class, 'getAdmissions']);
+        Route::put('admission/{model}/update', [SchoolAdminController::class, 'updateAdmission']);
+        Route::put('', [SchoolAdminController::class, 'update']);
+    });
+
+
+    //SCHOOL ADMIN
+    Route::group([
+        'prefix' => 'medical-admin'
+        //uncomment below line while testing
+        // , 'middleware' => ['medicaladmin']
+    ], function () {
+        Route::get('', [MedicalAdminController::class, 'index']);
+        Route::put('', [MedicalAdminController::class, 'update']);
+        Route::get('bookings', [MedicalAdminController::class, 'bookings']);
+        Route::put('booking/{model}/update', [MedicalAdminController::class, 'updateBooking']);
+    });
+
+
 });
