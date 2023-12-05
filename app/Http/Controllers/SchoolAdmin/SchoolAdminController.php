@@ -10,23 +10,40 @@ use Illuminate\Support\Facades\DB;
 
 class SchoolAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->get("search");
         return [
-            "data" => School::query()->where('user_id', auth()->user()->id)->orderBy('updated_at', 'desc')->with('subjectsOffered')->get()
+            "data" => School::query()->where('user_id', auth('sanctum')->user()->id)
+                ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', '%' . $search . '%'))
+                ->orderBy('updated_at', 'desc')->with('subjectsOffered')->get()
         ];
     }
 
 
 
-    public function update(Request $request)
+    public function update(Request $request, School $model)
     {
-        $model = School::query()->firstWhere('user_id', auth()->user()->id);
+        // return $request->all();
+        $validated =  $request->validate([
+            'name' => 'required',
+            'timing' => 'required',
+            'address' => 'required',
+            'contact' => 'required',
+            'rules_regulations' => 'required',
+            'description' => 'required',
+            'fees_structure' => 'required',
+            'email' => 'required',
+            'instagram_link' => 'required',
+            'youtube_link' => 'required',
+            'facebook_link' => 'required',
+            'is_active' => 'required',
+        ]);
 
-        DB::transaction(function () use ($model, $request) {
-            $model->update($request->only(School::FILLABLE));
-            $model->subjectsOffered()->sync($request->input('subject_ids'));
-            $model->facilities()->sync($request->input('facility_ids'));
+        DB::transaction(function () use ($model, $request, $validated) {
+            $model->update($validated);
+            filled($request->input('subject_ids')) && $model->subjectsOffered()->sync($request->input('subject_ids'));
+            filled($request->input('facility_ids')) && $model->facilities()->sync($request->input('facility_ids'));
         });
 
         return response()->json([
@@ -37,8 +54,14 @@ class SchoolAdminController extends Controller
 
     public function getAdmissions(Request $request)
     {
-        $school = School::query()->firstWhere('user_id', auth()->user()->id);
-        $admissions = Admission::query()->where('school_id', $school->id)->where('is_paid', true)->orderBy('updated_at', 'desc')
+        $status = $request->get('status');
+        $search = $request->get('search');
+
+        $school_ids = School::query()->where('user_id', auth('sanctum')->user()->id)->pluck('id')->toArray();
+        $admissions = Admission::query()->whereIn('school_id', $school_ids)->where('is_paid', true)
+            ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', '%' . $search . '%'))
+            ->when(filled($status), fn ($q) => $q->where('status', $status))
+            ->orderBy('updated_at', 'desc')
             ->with(['school', 'subject', 'user'])
             ->get();
 
@@ -50,8 +73,14 @@ class SchoolAdminController extends Controller
 
     public function updateAdmission(Admission $model, Request $request)
     {
-        $school = School::query()->firstWhere('user_id', auth()->user()->id);
-        abort_if($model->school_id != $school->id, 'Permission denied', 401);
+        $school_ids = School::query()->where('user_id', auth('sanctum')->user()->id)->pluck('id')->toArray();
+
+
+        abort_if(!in_array($model->school_id, $school_ids), 401, 'Permission denied');
+
+        $request->validate([
+            'status' => 'required'
+        ]);
 
         $model->status = $request->input('status');
         $model->save();

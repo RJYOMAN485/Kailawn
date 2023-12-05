@@ -36,8 +36,8 @@ class UserSeeder extends Seeder
         ],
         [
             'id' => 4,
-            'name' => 'beauty',
-            'email' => 'beauty@email.com',
+            'name' => 'school2',
+            'email' => 'school2@email.com',
             'password' => 'password',
             'role_id' => Role::SCHOOL
         ],
@@ -54,6 +54,34 @@ class UserSeeder extends Seeder
             'email' => 'counter2@email.com',
             'password' => 'password',
             'role_id' => Role::COUNTER
+        ],
+        [
+            'id' => 7,
+            'name' => 'Medical User',
+            'email' => 'medical@email.com',
+            'password' => 'password',
+            'role_id' => Role::MEDICAL
+        ],
+        [
+            'id' => 8,
+            'name' => 'Medical User2',
+            'email' => 'medical2@email.com',
+            'password' => 'password',
+            'role_id' => Role::MEDICAL
+        ],
+        [
+            'id' => 9,
+            'name' => 'Beauty Admin',
+            'email' => 'beauty@email.com',
+            'password' => 'password',
+            'role_id' => Role::BEAUTY
+        ],
+        [
+            'id' => 10,
+            'name' => 'Beauty Admin2',
+            'email' => 'beauty2@email.com',
+            'password' => 'password',
+            'role_id' => Role::BEAUTY
         ]
     ];
     public function run(): void

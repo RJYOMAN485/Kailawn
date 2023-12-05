@@ -76,7 +76,7 @@ Route::group(['prefix' => 'education/school'], function () {
     Route::get('{school}/admission/subjects', [SchoolController::class, 'getAvailableAdmission']);
     Route::post('{school}/admission/store', [SchoolController::class, 'storeAdmission'])
         //please uncomment middleware
-        // ->middleware('auth:sanctum');
+        ->middleware('auth:sanctum');
     ;
 });
 
@@ -112,7 +112,7 @@ Route::group(['prefix' => 'medical'], function () {
 Route::group(['prefix' => 'beauty'], function () {
     Route::get('', [BeautyController::class, 'index']);
     Route::get('{model}', [BeautyController::class, 'show']);
-    Route::post('{model}/beauty-booking', [BeautyController::class, 'bookBeauty'])->middleware('auth:sanctum');
+    Route::post('{model}/booking', [BeautyController::class, 'bookBeauty'])->middleware('auth:sanctum');
     Route::get('payment/response-handler/{booking}', [BeautyController::class, 'paymentCallback']);
 });
 
@@ -239,30 +239,9 @@ Route::group([
 
 
 
-    //SCHOOL ADMIN
-    Route::group([
-        'prefix' => 'school-admin'
-        //uncomment below line while testing
-        // , 'middleware' => ['schooladmin']
-    ], function () {
-        Route::get('', [SchoolAdminController::class, 'index']);
-        Route::get('admissions', [SchoolAdminController::class, 'getAdmissions']);
-        Route::put('admission/{model}/update', [SchoolAdminController::class, 'updateAdmission']);
-        Route::put('', [SchoolAdminController::class, 'update']);
-    });
 
 
-    //SCHOOL ADMIN
-    Route::group([
-        'prefix' => 'medical-admin'
-        //uncomment below line while testing
-        // , 'middleware' => ['medicaladmin']
-    ], function () {
-        Route::get('', [MedicalAdminController::class, 'index']);
-        Route::put('', [MedicalAdminController::class, 'update']);
-        Route::get('bookings', [MedicalAdminController::class, 'bookings']);
-        Route::put('booking/{model}/update', [MedicalAdminController::class, 'updateBooking']);
-    });
+
 
 
 });

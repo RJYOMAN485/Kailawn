@@ -63,9 +63,10 @@ class SchoolController extends Controller
 
     public function storeAdmission(School $school, Request $request)
     {
+        // return auth('sanctum')->id();
         $admission = $school->admissions()->create($request->only(Admission::ATTRIBUTES));
 
-        $admission->user_id = auth()->id() ?? 1;
+        $admission->user_id = auth('sanctum')->id();
 
         $admission->save();
 

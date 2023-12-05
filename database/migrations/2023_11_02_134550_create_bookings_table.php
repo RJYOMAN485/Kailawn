@@ -17,13 +17,14 @@ return new class extends Migration
             $table->foreignIdFor(User::class,'user_id');
             $table->string('full_name');
             $table->string('phone_no');
-            $table->mediumText('address');
-            $table->string('age');
-            $table->enum('timing',['morning','afternoon']);
+            $table->mediumText('address')->nullable();
+            $table->string('age')->nullable();
+            $table->string('timing')->nullable();
             $table->date('booking_date');
             $table->string('category_name');
             $table->enum('status',['pending','completed']);
             $table->nullableMorphs('owner');
+            $table->string('amount')->nullable();
             $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });

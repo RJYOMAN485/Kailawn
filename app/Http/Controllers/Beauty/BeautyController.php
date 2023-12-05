@@ -10,12 +10,8 @@ use Illuminate\Http\Request;
 
 class BeautyController extends Controller
 {
-    public User $authUser;
 
-    public function __construct()
-    {
-        $this->authUser = auth()->user() ?? User::find(1);
-    }
+
     public function index(Request $request)
     {
         $search = $request->get('search');
@@ -45,25 +41,24 @@ class BeautyController extends Controller
     {
         $validated =  $request->validate([
             'full_name' => 'required',
-            'phone_no' => 'required|min:10|max:10',
-            'address' => 'required|min:3',
-            'age' => 'required',
+            'phone_no' => 'nullable',
+            'address' => 'nullable',
+            'age' => 'nullable',
             'timing' => 'required',
             'category_name' => 'required', // category name = 'Beauty'
-            // 'booking_date' => 'required',
-            // 'status' => 'required',
+            'booking_date' => 'required',
+            'amount' => 'required',
             // 'is_paid' => 'required',
 
         ]);
 
         $bookings = $model->bookings()->create([
             ...$validated,
-            'user_id' => $this->authUser->id,
-            'booking_date' => now(),
+            'user_id' => auth('sanctum')->id(),
             'status' => 'pending'
         ]);
         //After Successfull payment
-        //1. Update status = 'success',
+        //1. Update status = 'completed',
         //2. Update is_paid = true;
         $bookings->save();
 
@@ -78,10 +73,10 @@ class BeautyController extends Controller
     {
         //THIS IS DEMO FUNCTION FOR PAYMENT CALLBACK. PLEASE MODIFY
         if ($request->payment_status == 'success') {
-            $booking->status = 'success';
+            $booking->status = 'completed';
             $booking->is_paid = true;
         } else {
-            $booking->status = 'payment_failed';
+            $booking->status = 'pending';
             $booking->is_paid = false;
         }
         $booking->save();

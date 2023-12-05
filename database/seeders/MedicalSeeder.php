@@ -16,6 +16,7 @@ class MedicalSeeder extends Seeder
         Medical::truncate();
         for ($i=0; $i < 10; $i++) {
             Medical::query()->create([
+                'user_id' => rand(7,8),
                 'doctor_name' => fake()->name,
                 'specialization_id' => rand(1,20),
                 'appointment_type' => rand(0,1) ? 'house_call' : 'clinic_booking',

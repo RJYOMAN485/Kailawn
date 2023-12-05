@@ -14,7 +14,7 @@ class BeautySeeder extends Seeder
     const DATA = [
         [
             'id' => 1,
-            'user_id' => null,
+            'user_id' => 9,
             'name' => 'Rini Beauty',
             'fee'=> '200',
             'address' => 'Chaltlang',
@@ -25,7 +25,7 @@ class BeautySeeder extends Seeder
         ],
         [
             'id' => 2,
-            'user_id' => 4,
+            'user_id' => 10,
             'fee'=> '200',
             'name' => 'Siami Beauty',
             'address' => 'Ramhlun Veng',

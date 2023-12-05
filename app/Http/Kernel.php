@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\BeautyMiddleWare;
 use App\Http\Middleware\MedicalMiddleware;
 use App\Http\Middleware\SchoolMiddleware;
 use App\Http\Middleware\SuperAdmin;
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'superadmin' => SuperAdmin::class,
         'schooladmin' => SchoolMiddleware::class,
         'medicaladmin' => MedicalMiddleware::class,
+        'beautyadmin' => BeautyMiddleWare::class,
     ];
 }

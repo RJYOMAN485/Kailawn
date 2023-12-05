@@ -20,7 +20,8 @@ class Booking extends Model
         'user_id',
         'booking_date',
         'status',
-        'is_paid'
+        'is_paid',
+        'amount'
     ];
 
     protected $fillable = self::FILLABLE;

@@ -9,20 +9,35 @@ use Illuminate\Http\Request;
 
 class MedicalAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // return auth('sanctum')->user();
+        $search = $request->get("search");
         return [
-            "data" => Medical::query()->where('user_id', auth()->user()->id)->orderBy('updated_at', 'desc')->with('specialization')->get()
+            "data" => Medical::query()->where('user_id', auth('sanctum')->user()->id)
+                ->when(filled($search), fn ($q) => $q->where('name', 'LIKE', '%' . $search . '%'))
+                ->orderBy('updated_at', 'desc')->with('specialization')->get()
         ];
     }
 
 
-    public function update(Request $request)
+    public function update(Request $request, Medical $model)
     {
-        $model = Medical::query()->firstWhere('user_id', auth()->user()->id);
+
+        $validated = $request->validate([
+            'doctor_name' => 'required',
+            'specialization_id' => 'required',
+            'appointment_type' => 'required',
+            'clinic_name' => 'required',
+            'address' => 'required',
+            'phone_no' => 'required',
+            'fee' => 'required',
+            'timing' => 'required',
+            'is_active' => 'required'
+        ]);
 
 
-        $model->update($request->only(Medical::FILLABLE));
+        $model->update(($validated));
 
         return response()->json([
             'message' => 'Successfully updated'
@@ -33,8 +48,11 @@ class MedicalAdminController extends Controller
 
     public function bookings(Request $request)
     {
-        $model = Medical::query()->firstWhere('user_id', auth()->user()->id);
-        $bookings = Booking::query()->whereHasMorph('owner', Medical::class, fn($query) => $query->where('owner_id', $model->id))->get();
+        $status = $request->get('status');
+        $model_ids = Medical::query()->where('user_id', auth('sanctum')->user()->id)->pluck('id')->toArray();
+        $bookings = Booking::query()->whereHasMorph('owner', Medical::class, fn ($query) => $query->whereIn('owner_id', $model_ids))
+            ->when(filled($status), fn ($q) => $q->where('status', $status))
+            ->get();
         return response()->json([
             'data' => $bookings
         ]);
@@ -43,11 +61,12 @@ class MedicalAdminController extends Controller
 
     public function updateBooking(Booking $model, Request $request)
     {
-        $model = Medical::query()->firstWhere('user_id', auth()->user()->id);
+        $model_ids = Medical::query()->firstWhere('user_id', auth('sanctum')->user()->id)->pluck('id')->toArray();
 
-        $bookings = Booking::query()->whereHasMorph('owner', Medical::class, fn($query) => $query->where('owner_id', $model->id))->exists();
+        $bookings = Booking::query()->whereHasMorph('owner', Medical::class, fn ($query) => $query->whereIn('owner_id', $model_ids))->where('id', $model->id)->get();
 
-        abort_if(!$bookings, 'Permission denied', 401);
+        // return $bookings;
+        abort_if(blank($bookings), 'Permission denied', 401);
 
         $model->status = $request->input('status');
 

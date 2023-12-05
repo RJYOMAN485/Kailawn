@@ -25,10 +25,15 @@ class UserAuthController extends Controller
 
     public function login(Request $request)
     {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'role_id' => 'required',
+        ]);
         $auth = Auth::attempt([
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => Role::USER
+            'role_id' => $request->role_id
         ]);
         if ($auth) {
             $auth = User::query()->firstWhere('email', $request->email);

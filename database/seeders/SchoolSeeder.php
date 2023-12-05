@@ -23,7 +23,7 @@ class SchoolSeeder extends Seeder
         for ($i = 0; $i < 20; $i++) {
             School::query()->create([
                 'name' => fake()->name . 'School',
-                'user_id' => $i == 0 ? 3 : null,
+                'user_id' => rand(3,4),
                 'timing' => '10:00 am - 6:00 am',
                 'address' => fake()->address,
                 'contact' => fake()->phoneNumber,
@@ -42,8 +42,8 @@ class SchoolSeeder extends Seeder
 
         School::query()->each(function($school) use($subjects,$facilities){
             // info($subjects->random(1,5)->pluck('id')->toArray());
-            $school->subjectsOffered()->attach($subjects->whereIn('id',[1,2,3])->random(rand(1,3))->pluck('id')->toArray());
-            $school->facilities()->attach($facilities->random(rand(1,3))->pluck('id')->toArray());
+            $school->subjectsOffered()->sync($subjects->whereIn('id',[1,2,3])->random(rand(1,3))->pluck('id')->toArray());
+            $school->facilities()->sync($facilities->random(rand(1,3))->pluck('id')->toArray());
 
         });
 
