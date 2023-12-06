@@ -27,8 +27,20 @@ class Booking extends Model
     protected $fillable = self::FILLABLE;
 
 
+    protected $appends = ['user'];
+
+
+    public function user() {
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+
     public function owner()
     {
         return $this->morphTo('owner');
+    }
+
+    public function getUserAttribute() {
+        return $this->user()->first();
     }
 }

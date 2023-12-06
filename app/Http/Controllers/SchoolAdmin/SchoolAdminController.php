@@ -78,12 +78,12 @@ class SchoolAdminController extends Controller
 
         abort_if(!in_array($model->school_id, $school_ids), 401, 'Permission denied');
 
-        $request->validate([
+        //here you can also update other fields of Admission
+        $validated = $request->validate([
             'status' => 'required'
         ]);
 
-        $model->status = $request->input('status');
-        $model->save();
+        $model->update($validated);
 
         return response()->json([
             'message' => 'Admission updated successfully'

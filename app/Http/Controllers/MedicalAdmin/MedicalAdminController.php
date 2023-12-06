@@ -68,9 +68,21 @@ class MedicalAdminController extends Controller
         // return $bookings;
         abort_if(blank($bookings), 'Permission denied', 401);
 
-        $model->status = $request->input('status');
+        $validated = $request->validate([
+            'full_name' => 'required',
+            'phone_no' => 'required',
+            'address' => 'required',
+            'age' => 'nullable',
+            'timing' => 'required',
+            'category_name' => 'required',
+            'booking_date' => 'required',
+            'status' => 'required',
+            'is_paid' => 'required',
+            'amount' => 'required',
+        ]);
 
-        $model->save();
+
+        $model->update($validated);
 
         return response()->json([
             'message' => 'Booking updated successfully'

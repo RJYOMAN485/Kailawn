@@ -46,8 +46,8 @@ class BeautyAdminController extends Controller
         $status = $request->get('status');
         $model_ids = Beauty::query()->where('user_id', auth('sanctum')->user()->id)->pluck('id')->toArray();
         $bookings = Booking::query()->whereHasMorph('owner', Beauty::class, fn ($query) => $query->whereIn('owner_id', $model_ids))
-        ->when(filled($status), fn ($q) => $q->where('status', $status))
-        ->get();
+            ->when(filled($status), fn ($q) => $q->where('status', $status))
+            ->get();
         return response()->json([
             'data' => $bookings
         ]);
@@ -61,11 +61,24 @@ class BeautyAdminController extends Controller
 
         $bookings = Booking::query()->whereHasMorph('owner', Beauty::class, fn ($query) => $query->whereIn('owner_id', $model_ids))->where('id', $model->id)->get();
 
-        abort_if(blank($bookings), 401,'Permission denied');
+        abort_if(blank($bookings), 401, 'Permission denied');
 
-        $model->status = $request->input('status');
 
-        $model->save();
+        $validated = $request->validate([
+            'full_name' => 'required',
+            'phone_no' => 'required',
+            'address' => 'required',
+            'age' => 'nullable',
+            'timing' => 'required',
+            'category_name' => 'required',
+            'booking_date' => 'required',
+            'status' => 'required',
+            'is_paid' => 'required',
+            'amount' => 'required',
+        ]);
+
+
+        $model->update($validated);
 
         return response()->json([
             'message' => 'Booking updated successfully'

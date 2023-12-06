@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function getRoleAttribute()
     {
-        return $this->role()->first();
+        return $this->role()->select('id','name')->first();
     }
 
     public function owner()

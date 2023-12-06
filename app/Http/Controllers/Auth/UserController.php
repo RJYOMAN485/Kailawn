@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function getUserAdmission() {
+    public function getUserAdmission()
+    {
         // return 'admission';
-        $authUser = auth()->user() ?? User::query()->first();
-        $admissions = $authUser?->admissions()->get()->map(function(Admission $admission) {
+        $authUser = auth('sanctum')->user();
+        $admissions = $authUser?->admissions()->get()->map(function (Admission $admission) {
             return [
                 'class' => $admission->class,
                 'submitted_date' => $admission->updated_at->format('d/m/Y'),
@@ -25,26 +26,16 @@ class UserController extends Controller
             'data' => $admissions
         ]);
     }
+    public function getUserBookings()
+    {
+        return response()->json([
+            'data' => auth('sanctum')->user()?->bookings()->get()
+        ]);
+    }
 
-
-    // public function store(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'name' => 'required',
-    //         'email' => 'required|unique:users,email',
-    //         'password' => 'required',
-    //         'role_id' => 'required'
-    //     ]);
-
-    //     User::query()->create($validated);
-
-    //     return response()->json(['message' => 'User Registration Success']);
-    // }
-
-    // public function destroy(User $user) {
-    //     $user->delete();
-
-    //     return response()->json(['message' => 'User Deleted']);
-
-    // }
+    public function getUserCounterBookings(){
+        return response()->json([
+            'data' => auth('sanctum')->user()?->counterBookings()->get()
+        ]);
+    }
 }

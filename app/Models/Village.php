@@ -9,5 +9,8 @@ class Village extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['pivot'];
+
+
     protected $fillable = ['name'];
 }

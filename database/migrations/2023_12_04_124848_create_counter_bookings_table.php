@@ -16,13 +16,14 @@ return new class extends Migration
     {
         Schema::create('counter_bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(TransportCounter::class,'counter_id');
-            $table->foreignIdFor(User::class,'user_id');
-            $table->foreignIdFor(Village::class,'village_id');
+            $table->foreignIdFor(TransportCounter::class, 'counter_id');
+            $table->foreignIdFor(User::class, 'user_id');
+            $table->foreignIdFor(Village::class, 'village_id');
             $table->string('seat_no');
             $table->string('rate');
             $table->date('booking_date');
             $table->mediumText('notes')->nullable();
+            $table->enum('status', ['pending', 'approved', 'rejected']);
             $table->timestamps();
         });
     }
